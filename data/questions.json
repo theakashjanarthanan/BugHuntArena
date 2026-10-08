@@ -1,0 +1,4202 @@
+[
+  {
+    "title": "Off-by-one in range sum",
+    "description": "Sums every integer from 1 up to and including n.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def sum_to_n(n):\n    total = 0\n    for i in range(1, n):\n        total += i\n    return total\n\nprint(sum_to_n(5))  # expected 15",
+    "bugLine": 3,
+    "bugExplanation": "range(1, n) stops at n-1, so n is never added. Use range(1, n + 1) to include n.",
+    "hints": [
+      "The result is smaller than expected.",
+      "Check the upper bound of range().",
+      "range() excludes its stop value."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "range(1, n + 1)",
+      "range(0, n)",
+      "range(n)"
+    ],
+    "correctAnswer": "range(1, n + 1)"
+  },
+  {
+    "title": "Wrong remainder check",
+    "description": "Returns True when a number is even.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def is_even(n):\n    if n % 2 == 1:\n        return True\n    return False\n\ndef filter_evens(nums):\n    return [x for x in nums if is_even(x)]\n\nprint(filter_evens([1, 2, 3, 4]))",
+    "bugLine": 2,
+    "bugExplanation": "The function tests for a remainder of 1, which identifies odd numbers. Even numbers have remainder 0: n % 2 == 0.",
+    "hints": [
+      "Even numbers are being rejected.",
+      "Look at what the modulo result means.",
+      "Even numbers leave remainder 0."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "n % 2 != 0",
+      "n / 2 == 0",
+      "n % 2 == 0"
+    ],
+    "correctAnswer": "n % 2 == 0"
+  },
+  {
+    "title": "Missing return in helper",
+    "description": "Computes the square of a number and uses it to sum squares.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def square(x):\n    result = x * x\n\ndef sum_of_squares(nums):\n    total = 0\n    for n in nums:\n        total += square(n)\n    return total",
+    "bugLine": 2,
+    "bugExplanation": "square() computes a value but never returns it, so it yields None and the addition raises TypeError. Add return result.",
+    "hints": [
+      "A TypeError occurs when adding.",
+      "What does square() give back?",
+      "Functions return None by default."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "result = x ** 2",
+      "return result",
+      "print(result)"
+    ],
+    "correctAnswer": "return result"
+  },
+  {
+    "title": "None used as counter",
+    "description": "Counts how many vowels appear in a string.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def count_vowels(text):\n    count = None\n    for ch in text.lower():\n        if ch in \"aeiou\":\n            count += 1\n    return count\n\nprint(count_vowels(\"Education\"))",
+    "bugLine": 2,
+    "bugExplanation": "count starts as None, and None + 1 raises TypeError. Initialize the counter with 0.",
+    "hints": [
+      "A TypeError is raised.",
+      "Inspect the initial value of count.",
+      "You cannot add to None."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "count = []",
+      "count = ''",
+      "count = 0"
+    ],
+    "correctAnswer": "count = 0"
+  },
+  {
+    "title": "Wrong index for last element",
+    "description": "Returns the final element of a non-empty list.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def last_item(items):\n    return items[len(items)]\n\ndef describe_last(items):\n    return \"Last: \" + str(last_item(items))\n\nprint(describe_last([4, 5, 6]))",
+    "bugLine": 2,
+    "bugExplanation": "Valid indexes run from 0 to len-1, so items[len(items)] raises IndexError. Use items[len(items) - 1] (or items[-1]).",
+    "hints": [
+      "IndexError at runtime.",
+      "Indexes start at zero.",
+      "The last valid index is len - 1."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "items[1]",
+      "items[len(items) + 1]",
+      "items[len(items) - 1]"
+    ],
+    "correctAnswer": "items[len(items) - 1]"
+  },
+  {
+    "title": "Infinite while loop",
+    "description": "Builds a countdown list from n down to 1.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def countdown(n):\n    values = []\n    while n > 0:\n        values.append(n)\n    return values\n\nprint(countdown(3))  # expected [3, 2, 1]",
+    "bugLine": 3,
+    "bugExplanation": "The loop variable n is never changed so n > 0 stays True forever. Add n -= 1 in the loop body.",
+    "hints": [
+      "The program never finishes.",
+      "Does the loop condition ever change?",
+      "Decrement n inside the loop."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "n -= 1",
+      "n += 1",
+      "break"
+    ],
+    "correctAnswer": "n -= 1"
+  },
+  {
+    "title": "Wrong comparison in max",
+    "description": "Finds the largest number in a list.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def find_max(nums):\n    best = nums[0]\n    for n in nums:\n        if n < best:\n            best = n\n    return best\n\nprint(find_max([3, 9, 2]))",
+    "bugLine": 4,
+    "bugExplanation": "Using < keeps the smallest value instead of the largest. The condition must be n > best.",
+    "hints": [
+      "It returns the minimum.",
+      "Check the comparison direction.",
+      "Use greater-than to track a maximum."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "n > best",
+      "n == best",
+      "n <= 0"
+    ],
+    "correctAnswer": "n > best"
+  },
+  {
+    "title": "String plus int concatenation",
+    "description": "Builds a greeting that includes a name and age.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def describe(name, age):\n    msg = \"Name: \" + name + \", age: \" + age\n    return msg\n\nprint(describe(\"Ana\", 30))\n# Run the example above and compare the output with what is expected.",
+    "bugLine": 2,
+    "bugExplanation": "Python cannot concatenate str and int. Convert age with str(age).",
+    "hints": [
+      "A TypeError mentions str and int.",
+      "Types differ in the concatenation.",
+      "Convert the number to a string."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "int(age)",
+      "age.str()",
+      "str(age)"
+    ],
+    "correctAnswer": "str(age)"
+  },
+  {
+    "title": "Wrong slice bound",
+    "description": "Returns the first three items of a list.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def first_three(items):\n    return items[:2]\n\ndef label(items):\n    return \", \".join(str(i) for i in first_three(items))\n\nprint(label([1, 2, 3, 4, 5]))",
+    "bugLine": 2,
+    "bugExplanation": "The slice [:2] gives two items. To get three items use items[:3].",
+    "hints": [
+      "Only two items come back.",
+      "Slice end is exclusive.",
+      "Change 2 to 3."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "items[1:3]",
+      "items[:4]",
+      "items[:3]"
+    ],
+    "correctAnswer": "items[:3]"
+  },
+  {
+    "title": "Integer division in average",
+    "description": "Computes the arithmetic mean of a list of numbers.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def average(nums):\n    return sum(nums) // len(nums)\n\nprint(average([1, 2, 4]))  # expected 2.333...\n# Run the example above and compare the output with what is expected.\n# The expected behaviour is described in the task description.",
+    "bugLine": 2,
+    "bugExplanation": "// performs floor division and drops the fractional part. Use / for true division.",
+    "hints": [
+      "The decimal part is lost.",
+      "Check the division operator.",
+      "Use true division."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "sum(nums) * len(nums)",
+      "sum(nums) % len(nums)",
+      "sum(nums) / len(nums)"
+    ],
+    "correctAnswer": "sum(nums) / len(nums)"
+  },
+  {
+    "title": "Wrong boolean operator in range",
+    "description": "Checks whether x lies between lo and hi inclusive.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def in_range(x, lo, hi):\n    return x >= lo or x <= hi\n\nprint(in_range(5, 1, 10))\nprint(in_range(50, 1, 10))  # should be False\n# Run the example above and compare the output with what is expected.",
+    "bugLine": 2,
+    "bugExplanation": "With or, almost every number satisfies at least one side. Both bounds must hold, so use and.",
+    "hints": [
+      "Out-of-range numbers pass.",
+      "Consider which operator requires both conditions.",
+      "Replace or with and."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "x >= lo and x <= hi",
+      "x > lo or x < hi",
+      "x >= lo and x >= hi"
+    ],
+    "correctAnswer": "x >= lo and x <= hi"
+  },
+  {
+    "title": "Wrong step in reverse slice",
+    "description": "Checks whether a string reads the same backwards.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def is_palindrome(s):\n    s = s.lower()\n    return s == s[::1]\n\nprint(is_palindrome(\"Level\"))\nprint(is_palindrome(\"hello\"))",
+    "bugLine": 3,
+    "bugExplanation": "s[::1] copies the string unchanged, so the check is always True. Reverse with s[::-1].",
+    "hints": [
+      "Everything is reported as a palindrome.",
+      "What does the slice step do?",
+      "A negative step reverses."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "s[1::]",
+      "s[:-1]",
+      "s[::-1]"
+    ],
+    "correctAnswer": "s[::-1]"
+  },
+  {
+    "title": "KeyError on first word",
+    "description": "Counts the occurrences of each word.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def word_count(words):\n    counts = {}\n    for w in words:\n        counts[w] = counts[w] + 1\n    return counts\n\nprint(word_count([\"a\", \"b\", \"a\"]))",
+    "bugLine": 4,
+    "bugExplanation": "Reading counts[w] for a new word raises KeyError. Use counts.get(w, 0) + 1.",
+    "hints": [
+      "KeyError on the first word.",
+      "The key does not exist yet.",
+      "Provide a default with get()."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "counts[w] += 0",
+      "counts.get(w, 0) + 1",
+      "counts.pop(w) + 1"
+    ],
+    "correctAnswer": "counts.get(w, 0) + 1"
+  },
+  {
+    "title": "Wrong final return value",
+    "description": "Returns True only when all numbers are positive.",
+    "language": "python",
+    "difficulty": "easy",
+    "code": "def all_positive(nums):\n    for n in nums:\n        if n <= 0:\n            return False\n    return False\n\nprint(all_positive([1, 2, 3]))  # expected True",
+    "bugLine": 5,
+    "bugExplanation": "If no bad value is found the function should return True, but it returns False. Change the final return to True.",
+    "hints": [
+      "Valid input returns False.",
+      "What happens when the loop completes?",
+      "The default should be True."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "return len(nums) > 0",
+      "return None",
+      "return True"
+    ],
+    "correctAnswer": "return True"
+  },
+  {
+    "title": "Mutable default argument",
+    "description": "Adds an item to a bucket list and returns it.",
+    "language": "python",
+    "difficulty": "medium",
+    "code": "def add_item(item, bucket=[]):\n    bucket.append(item)\n    return bucket\n\nprint(add_item(1))\nprint(add_item(2))  # expected [2]",
+    "bugLine": 1,
+    "bugExplanation": "The default list is created once and shared across calls. Use bucket=None and create a new list inside.",
+    "hints": [
+      "State leaks between calls.",
+      "Default values are evaluated once.",
+      "Use None as the default."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "bucket=None",
+      "bucket=()",
+      "bucket=list"
+    ],
+    "correctAnswer": "bucket=None"
+  },
+  {
+    "title": "Removing while iterating",
+    "description": "Removes all even numbers from a list in place.",
+    "language": "python",
+    "difficulty": "medium",
+    "code": "def remove_evens(nums):\n    for n in nums:\n        if n % 2 == 0:\n            nums.remove(n)\n    return nums\n\nprint(remove_evens([2, 4, 6, 1]))",
+    "bugLine": 2,
+    "bugExplanation": "Removing items from a list while iterating skips elements. Iterate over a copy: for n in nums[:].",
+    "hints": [
+      "Some evens survive.",
+      "The list shrinks during iteration.",
+      "Iterate a copy."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "for n in nums[:]:",
+      "for n in nums.copy:",
+      "for n in reversed(nums.remove):"
+    ],
+    "correctAnswer": "for n in nums[:]:"
+  },
+  {
+    "title": "Late-binding lambda",
+    "description": "Creates three functions returning 0, 1, 2.",
+    "language": "python",
+    "difficulty": "medium",
+    "code": "funcs = []\nfor i in range(3):\n    funcs.append(lambda: i)\n\nprint([f() for f in funcs])  # expected [0, 1, 2]\n# Run the example above and compare the output with what is expected.",
+    "bugLine": 3,
+    "bugExplanation": "Lambdas capture the variable i, not its value, so all return 2. Bind the current value: lambda i=i: i.",
+    "hints": [
+      "All lambdas return the same value.",
+      "Closures capture variables.",
+      "Bind with a default argument."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "lambda i=i: i",
+      "lambda: str(i)",
+      "lambda: i + 0"
+    ],
+    "correctAnswer": "lambda i=i: i"
+  },
+  {
+    "title": "Shared rows in grid",
+    "description": "Creates a 3x3 grid of zeros.",
+    "language": "python",
+    "difficulty": "medium",
+    "code": "grid = [[0] * 3] * 3\ngrid[0][0] = 1\nprint(grid)  # expected only the first cell to change\nfor row in grid:\n    print(row)\n# Run the example above and compare the output with what is expected.",
+    "bugLine": 1,
+    "bugExplanation": "Multiplying the outer list repeats references to the same inner list. Use [[0]*3 for _ in range(3)].",
+    "hints": [
+      "Changing one row changes all.",
+      "The rows are the same object.",
+      "Use a list comprehension."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "[[0] * 3] + [[0] * 3]",
+      "[[0] * 3 for _ in range(3)]",
+      "[0] * 3 * 3"
+    ],
+    "correctAnswer": "[[0] * 3 for _ in range(3)]"
+  },
+  {
+    "title": "Binary search stuck",
+    "description": "Returns the index of target in a sorted list or -1.",
+    "language": "python",
+    "difficulty": "medium",
+    "code": "def binary_search(arr, target):\n    lo, hi = 0, len(arr) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            lo = mid\n        else:\n            hi = mid - 1\n    return -1",
+    "bugLine": 8,
+    "bugExplanation": "Setting lo = mid can loop forever when lo == mid. Use lo = mid + 1.",
+    "hints": [
+      "Sometimes the loop never ends.",
+      "Does the range shrink each time?",
+      "Skip the mid already checked."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "lo = mid + 1",
+      "hi = mid",
+      "lo = mid - 1"
+    ],
+    "correctAnswer": "lo = mid + 1"
+  },
+  {
+    "title": "Identity vs equality for strings",
+    "description": "Prints a message when status is 'ok'.",
+    "language": "python",
+    "difficulty": "medium",
+    "code": "def check(status):\n    if status is \"ok\":\n        return \"All good\"\n    return \"Problem\"\n\nprint(check(\"\".join([\"o\", \"k\"])))",
+    "bugLine": 2,
+    "bugExplanation": "'is' compares object identity, not value; strings built at runtime may be different objects. Use ==.",
+    "hints": [
+      "Equal strings are not matched.",
+      "'is' is not equality.",
+      "Use the equality operator."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "status in \"ok\"",
+      "status == \"ok\"",
+      "status != \"ok\""
+    ],
+    "correctAnswer": "status == \"ok\""
+  },
+  {
+    "title": "Global counter without declaration",
+    "description": "Increments a module-level counter.",
+    "language": "python",
+    "difficulty": "medium",
+    "code": "counter = 0\n\ndef increment():\n    counter += 1\n    return counter\n\nprint(increment())",
+    "bugLine": 4,
+    "bugExplanation": "Assigning to counter inside the function makes it local, raising UnboundLocalError. Declare global counter first.",
+    "hints": [
+      "UnboundLocalError at runtime.",
+      "Assignment creates a local name.",
+      "Declare the scope."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "global counter",
+      "nonlocal counter",
+      "counter = 0"
+    ],
+    "correctAnswer": "global counter"
+  },
+  {
+    "title": "Fibonacci returns wrong value",
+    "description": "Returns the n-th Fibonacci number (fib(0)=0, fib(1)=1).",
+    "language": "python",
+    "difficulty": "medium",
+    "code": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return b\n\nprint(fib(5))  # expected 5",
+    "bugLine": 5,
+    "bugExplanation": "After n iterations a holds fib(n); b is the next number. Return a.",
+    "hints": [
+      "Result is one step ahead.",
+      "Which variable holds fib(n)?",
+      "Return a instead of b."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "return a + b",
+      "return a",
+      "return b - 1"
+    ],
+    "correctAnswer": "return a"
+  },
+  {
+    "title": "sort() returns None",
+    "description": "Returns a sorted copy of the numbers.",
+    "language": "python",
+    "difficulty": "medium",
+    "code": "def sorted_numbers(nums):\n    result = nums.sort()\n    return result\n\nprint(sorted_numbers([3, 1, 2]))\n# Run the example above and compare the output with what is expected.",
+    "bugLine": 2,
+    "bugExplanation": "list.sort() sorts in place and returns None. Use sorted(nums).",
+    "hints": [
+      "The output is None.",
+      "Check what sort returns.",
+      "Use the function that returns a new list."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "nums.sort",
+      "nums.sorted()",
+      "sorted(nums)"
+    ],
+    "correctAnswer": "sorted(nums)"
+  },
+  {
+    "title": "Wrong zero-division guard",
+    "description": "Returns a / b, or 0 when b is zero.",
+    "language": "python",
+    "difficulty": "medium",
+    "code": "def safe_ratio(a, b):\n    if b is None:\n        return 0\n    return a / b\n\nprint(safe_ratio(5, 0))",
+    "bugLine": 2,
+    "bugExplanation": "The guard checks for None, not zero, so ZeroDivisionError is still raised. Check b == 0.",
+    "hints": [
+      "ZeroDivisionError still occurs.",
+      "What value causes the error?",
+      "Compare with zero."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "if b is not 0:",
+      "if b == 0:",
+      "if not a:"
+    ],
+    "correctAnswer": "if b == 0:"
+  },
+  {
+    "title": "Unused result of strip",
+    "description": "Normalizes a user name by trimming whitespace.",
+    "language": "python",
+    "difficulty": "medium",
+    "code": "def normalize(name):\n    name.strip()\n    return name.title()\n\nprint(repr(normalize(\"  alice smith  \")))\n# Run the example above and compare the output with what is expected.",
+    "bugLine": 2,
+    "bugExplanation": "Strings are immutable; strip() returns a new string that is discarded. Assign it: name = name.strip().",
+    "hints": [
+      "Whitespace remains.",
+      "The return value is ignored.",
+      "Assign the result."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "name = name.strip()",
+      "name.strip(name)",
+      "name = strip(name)"
+    ],
+    "correctAnswer": "name = name.strip()"
+  },
+  {
+    "title": "all instead of any",
+    "description": "Checks whether a list contains any negative number.",
+    "language": "python",
+    "difficulty": "medium",
+    "code": "def has_negative(nums):\n    return all(n < 0 for n in nums)\n\nprint(has_negative([1, -2, 3]))  # expected True\n# Run the example above and compare the output with what is expected.\n# The expected behaviour is described in the task description.",
+    "bugLine": 2,
+    "bugExplanation": "all() requires every element to be negative. Use any().",
+    "hints": [
+      "Mixed lists return False.",
+      "Which built-in checks for at least one?",
+      "Swap all for any."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "sum(n < 0 for n in nums) == len(nums)",
+      "all(n >= 0 for n in nums)",
+      "any(n < 0 for n in nums)"
+    ],
+    "correctAnswer": "any(n < 0 for n in nums)"
+  },
+  {
+    "title": "Parsing a float string with int",
+    "description": "Converts the string '3.7' to an integer by truncating.",
+    "language": "python",
+    "difficulty": "medium",
+    "code": "def to_int(s):\n    return int(s)\n\nprint(to_int(\"3.7\"))  # expected 3\nprint(to_int(\"10\"))\n# Run the example above and compare the output with what is expected.",
+    "bugLine": 2,
+    "bugExplanation": "int('3.7') raises ValueError because the string is not an integer literal. Parse with float first: int(float(s)).",
+    "hints": [
+      "ValueError is raised.",
+      "The string contains a decimal point.",
+      "Go through float."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "int(s, 10)",
+      "int(float(s))",
+      "float(int(s))"
+    ],
+    "correctAnswer": "int(float(s))"
+  },
+  {
+    "title": "Exhausted generator",
+    "description": "Computes the average of doubled numbers.",
+    "language": "python",
+    "difficulty": "hard",
+    "code": "def avg_doubled(nums):\n    gen = (x * 2 for x in nums)\n    total = sum(gen)\n    count = len(list(gen))\n    return total / count\n\nprint(avg_doubled([1, 2, 3]))",
+    "bugLine": 2,
+    "bugExplanation": "A generator can be consumed only once; after sum(gen) it is empty so count is 0, causing ZeroDivisionError. Build a list instead.",
+    "hints": [
+      "ZeroDivisionError appears.",
+      "A generator is single use.",
+      "Store the values in a list."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "gen = (x * 2 for x in nums[:])",
+      "gen = [x * 2 for x in nums]",
+      "gen = iter(nums)"
+    ],
+    "correctAnswer": "gen = [x * 2 for x in nums]"
+  },
+  {
+    "title": "Factorial base case misses zero",
+    "description": "Computes n! recursively.",
+    "language": "python",
+    "difficulty": "hard",
+    "code": "def fact(n):\n    if n == 1:\n        return 1\n    return n * fact(n - 1)\n\nprint(fact(5))\nprint(fact(0))  # expected 1",
+    "bugLine": 2,
+    "bugExplanation": "fact(0) never hits the base case and recurses forever until RecursionError. Use n <= 1.",
+    "hints": [
+      "Recursion error for 0.",
+      "What stops the recursion?",
+      "Handle 0 too."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "if n == 2:",
+      "if n < 0:",
+      "if n <= 1:"
+    ],
+    "correctAnswer": "if n <= 1:"
+  },
+  {
+    "title": "Shared class attribute",
+    "description": "Each Basket instance should have its own item list.",
+    "language": "python",
+    "difficulty": "hard",
+    "code": "class Basket:\n    items = []\n\n    def add(self, item):\n        self.items.append(item)\n\na = Basket(); b = Basket()\na.add(\"x\")\nprint(b.items)  # expected []",
+    "bugLine": 2,
+    "bugExplanation": "A class attribute is shared by all instances. Create the list in __init__ as self.items = [].",
+    "hints": [
+      "Instances share state.",
+      "Where is the list created?",
+      "Move it into __init__."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "items = ()",
+      "self.items = [] in __init__",
+      "items = None"
+    ],
+    "correctAnswer": "self.items = [] in __init__"
+  },
+  {
+    "title": "Decorator swallows return value",
+    "description": "A logging decorator should pass through the wrapped function's result.",
+    "language": "python",
+    "difficulty": "hard",
+    "code": "def logged(func):\n    def wrapper(*args, **kwargs):\n        print(\"calling\", func.__name__)\n        func(*args, **kwargs)\n    return wrapper\n\n@logged\ndef add(a, b):\n    return a + b\n\nprint(add(1, 2))  # expected 3",
+    "bugLine": 4,
+    "bugExplanation": "wrapper calls func but doesn't return its result so callers get None. Use return func(*args, **kwargs).",
+    "hints": [
+      "Decorated function returns None.",
+      "What does wrapper return?",
+      "Return the call's result."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "return func(*args, **kwargs)",
+      "return func",
+      "return print(func)"
+    ],
+    "correctAnswer": "return func(*args, **kwargs)"
+  },
+  {
+    "title": "Quicksort drops duplicates",
+    "description": "Sorts a list with quicksort keeping duplicates.",
+    "language": "python",
+    "difficulty": "hard",
+    "code": "def quicksort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[0]\n    left = [x for x in arr[1:] if x < pivot]\n    right = [x for x in arr[1:] if x > pivot]\n    return quicksort(left) + [pivot] + quicksort(right)\n\nprint(quicksort([3, 1, 3, 2]))",
+    "bugLine": 6,
+    "bugExplanation": "Values equal to the pivot are excluded from both partitions and lost. Use x >= pivot for the right side.",
+    "hints": [
+      "Duplicate values disappear.",
+      "What about values equal to the pivot?",
+      "Include equality on one side."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "x != pivot",
+      "x > pivot - 1 and x < pivot",
+      "x >= pivot"
+    ],
+    "correctAnswer": "x >= pivot"
+  },
+  {
+    "title": "Transpose reads wrong cell",
+    "description": "Transposes a rectangular matrix.",
+    "language": "python",
+    "difficulty": "hard",
+    "code": "def transpose(matrix):\n    rows, cols = len(matrix), len(matrix[0])\n    result = [[0] * rows for _ in range(cols)]\n    for i in range(rows):\n        for j in range(cols):\n            result[j][i] = matrix[j][i]\n    return result\n\nprint(transpose([[1, 2, 3], [4, 5, 6]]))",
+    "bugLine": 6,
+    "bugExplanation": "The source should be matrix[i][j] since i iterates rows and j columns; matrix[j][i] goes out of range for non-square input.",
+    "hints": [
+      "IndexError for non-square matrices.",
+      "Which index is the row?",
+      "Read matrix[i][j]."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "matrix[i][j]",
+      "matrix[i][j] + 0",
+      "matrix[rows][cols]"
+    ],
+    "correctAnswer": "matrix[i][j]"
+  },
+  {
+    "title": "Float equality check",
+    "description": "Checks if two computed floats are equal.",
+    "language": "python",
+    "difficulty": "hard",
+    "code": "import math\n\ndef same(a, b):\n    return a == b\n\nx = 0.1 + 0.2\nprint(same(x, 0.3))  # expected True",
+    "bugLine": 4,
+    "bugExplanation": "Floating-point rounding makes 0.1 + 0.2 != 0.3. Compare with a tolerance using math.isclose(a, b).",
+    "hints": [
+      "Obvious equals are False.",
+      "Floats are approximate.",
+      "Use a tolerance helper."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "round(a) == b",
+      "math.isclose(a, b)",
+      "abs(a) == abs(b)"
+    ],
+    "correctAnswer": "math.isclose(a, b)"
+  },
+  {
+    "title": "Pop on empty stack",
+    "description": "Checks whether brackets are balanced.",
+    "language": "python",
+    "difficulty": "hard",
+    "code": "def balanced(s):\n    stack = []\n    pairs = {\")\": \"(\", \"]\": \"[\"}\n    for ch in s:\n        if ch in \"([\":\n            stack.append(ch)\n        elif ch in pairs:\n            if stack.pop() != pairs[ch]:\n                return False\n    return not stack\n\nprint(balanced(\"())\"))",
+    "bugLine": 8,
+    "bugExplanation": "A closing bracket with an empty stack makes pop() raise IndexError. Check not stack or ... first.",
+    "hints": [
+      "Crash on ')' first.",
+      "What if the stack is empty?",
+      "Guard before popping."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "stack.pop(0) != pairs[ch]",
+      "stack[-1] == pairs[ch]",
+      "not stack or stack.pop() != pairs[ch]"
+    ],
+    "correctAnswer": "not stack or stack.pop() != pairs[ch]"
+  },
+  {
+    "title": "Dedup adds before checking",
+    "description": "Removes duplicates while preserving order.",
+    "language": "python",
+    "difficulty": "hard",
+    "code": "def dedupe(items):\n    seen = set()\n    result = []\n    for x in items:\n        seen.add(x)\n        if x not in seen:\n            result.append(x)\n    return result\n\nprint(dedupe([1, 2, 1, 3]))",
+    "bugLine": 5,
+    "bugExplanation": "x is added to seen before the membership test, so the test is always False and result stays empty. Add after the check.",
+    "hints": [
+      "The output is empty.",
+      "Order of operations.",
+      "Move the add after the if."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "if x in seen:",
+      "seen.add(x) after the if",
+      "seen.discard(x)"
+    ],
+    "correctAnswer": "seen.add(x) after the if"
+  },
+  {
+    "title": "Sliding window off by one",
+    "description": "Finds the max sum of any k consecutive numbers.",
+    "language": "python",
+    "difficulty": "hard",
+    "code": "def max_window(nums, k):\n    best = float(\"-inf\")\n    for i in range(len(nums) - k):\n        best = max(best, sum(nums[i:i + k]))\n    return best\n\nprint(max_window([1, 2, 3], 3))  # expected 6",
+    "bugLine": 3,
+    "bugExplanation": "The last window start index is len-k, but range stops before it. Use range(len(nums) - k + 1).",
+    "hints": [
+      "Last window is skipped.",
+      "Check the final starting index.",
+      "Add 1 to the range bound."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "range(len(nums))",
+      "range(1, len(nums) - k)",
+      "range(len(nums) - k + 1)"
+    ],
+    "correctAnswer": "range(len(nums) - k + 1)"
+  },
+  {
+    "title": "Unhashable list as cache key",
+    "description": "Caches results keyed by two arguments.",
+    "language": "python",
+    "difficulty": "hard",
+    "code": "cache = {}\n\ndef add_cached(a, b):\n    key = [a, b]\n    if key not in cache:\n        cache[key] = a + b\n    return cache[key]\n\nprint(add_cached(1, 2))",
+    "bugLine": 4,
+    "bugExplanation": "Lists are unhashable and can't be dict keys (TypeError). Use a tuple: (a, b).",
+    "hints": [
+      "TypeError: unhashable type.",
+      "What can be a dict key?",
+      "Use an immutable sequence."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "key = {a, b}",
+      "key = (a, b)",
+      "key = str"
+    ],
+    "correctAnswer": "key = (a, b)"
+  },
+  {
+    "title": "Binary digits in wrong order",
+    "description": "Converts a positive integer to a binary string.",
+    "language": "python",
+    "difficulty": "hard",
+    "code": "def to_binary(n):\n    bits = []\n    while n > 0:\n        bits.append(str(n % 2))\n        n //= 2\n    return \"\".join(bits)\n\nprint(to_binary(6))  # expected 110",
+    "bugLine": 6,
+    "bugExplanation": "Remainders are produced least-significant first so the string is reversed. Join reversed(bits).",
+    "hints": [
+      "Digits come out backwards.",
+      "Which bit is found first?",
+      "Reverse before joining."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "\"\".join(bits[1:])",
+      "\"\".join(sorted(bits))",
+      "\"\".join(reversed(bits))"
+    ],
+    "correctAnswer": "\"\".join(reversed(bits))"
+  },
+  {
+    "title": "Flatten appends nested list",
+    "description": "Flattens arbitrarily nested lists.",
+    "language": "python",
+    "difficulty": "hard",
+    "code": "def flatten(lst):\n    result = []\n    for x in lst:\n        if isinstance(x, list):\n            result.append(flatten(x))\n        else:\n            result.append(x)\n    return result\n\nprint(flatten([1, [2, [3]]]))  # expected [1, 2, 3]",
+    "bugLine": 5,
+    "bugExplanation": "append adds the flattened sublist as one element, leaving nesting. Use result.extend(flatten(x)).",
+    "hints": [
+      "Output is still nested.",
+      "append vs extend.",
+      "Extend with the recursive result."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "result.insert(flatten(x))",
+      "result += x",
+      "result.extend(flatten(x))"
+    ],
+    "correctAnswer": "result.extend(flatten(x))"
+  },
+  {
+    "title": "Assignment in condition",
+    "description": "Returns a message saying whether n is zero.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "function checkZero(n) {\n  if (n = 0) {\n    return \"zero\";\n  }\n  return \"non-zero\";\n}\n\nconsole.log(checkZero(5));\nconsole.log(checkZero(0));",
+    "bugLine": 2,
+    "bugExplanation": "A single = assigns 0 to n so the condition is always falsy and n is overwritten. Use === for comparison.",
+    "hints": [
+      "Every input gives the same answer.",
+      "Look at the operator inside the if.",
+      "= assigns, === compares."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "n !== 0",
+      "n === 0",
+      "n == null"
+    ],
+    "correctAnswer": "n === 0"
+  },
+  {
+    "title": "Off-by-one array loop",
+    "description": "Prints every element of an array.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "const arr = [\"a\", \"b\", \"c\"];\nconst out = [];\nfor (let i = 0; i <= arr.length; i++) {\n  out.push(arr[i].toUpperCase());\n}\nconsole.log(out);",
+    "bugLine": 3,
+    "bugExplanation": "Index arr.length is out of range so arr[i] is undefined and .toUpperCase() throws. Use i < arr.length.",
+    "hints": [
+      "A TypeError on undefined.",
+      "Check the loop's end condition.",
+      "Last valid index is length - 1."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "i < arr.length - 1",
+      "i < arr.length",
+      "i <= arr.length - 2"
+    ],
+    "correctAnswer": "i < arr.length"
+  },
+  {
+    "title": "Arrow function missing return",
+    "description": "Doubles a number with an arrow function.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "const double = (x) => {\n  x * 2;\n};\n\nconst nums = [1, 2, 3];\nconsole.log(nums.map(double));  // expected [2, 4, 6]",
+    "bugLine": 2,
+    "bugExplanation": "With braces an arrow function needs an explicit return; otherwise it returns undefined. Write return x * 2.",
+    "hints": [
+      "Output is full of undefined.",
+      "Braces change implicit returns.",
+      "Add return."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "console.log(x * 2);",
+      "return x * 2;",
+      "x *= 2;"
+    ],
+    "correctAnswer": "return x * 2;"
+  },
+  {
+    "title": "Missing null check on nested property",
+    "description": "Reads a user's city safely.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "function getCity(user) {\n  return user.address.city;\n}\n\nconsole.log(getCity({ name: \"Sam\", address: { city: \"Rome\" } }));\nconsole.log(getCity({ name: \"Lee\" }));  // expected undefined",
+    "bugLine": 2,
+    "bugExplanation": "address may be undefined causing a TypeError. Use optional chaining: user.address?.city.",
+    "hints": [
+      "TypeError: cannot read properties of undefined.",
+      "What if address is missing?",
+      "Use ?."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "user.address.city || 0",
+      "user.address?.city",
+      "user?.address.city"
+    ],
+    "correctAnswer": "user.address?.city"
+  },
+  {
+    "title": "String concatenation instead of addition",
+    "description": "Adds two numbers that arrive as strings from an input.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "function add(a, b) {\n  return a + b;\n}\n\nconst x = \"5\";\nconst y = \"3\";\nconsole.log(add(x, y));  // expected 8",
+    "bugLine": 2,
+    "bugExplanation": "+ concatenates strings giving '53'. Convert both values with Number() first.",
+    "hints": [
+      "Result looks like '53'.",
+      "Check the types.",
+      "Convert to numbers."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "a - -b + ''",
+      "parseInt(a + b)",
+      "Number(a) + Number(b)"
+    ],
+    "correctAnswer": "Number(a) + Number(b)"
+  },
+  {
+    "title": "Wrong last-element index",
+    "description": "Returns the last element of an array.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "function last(arr) {\n  return arr[arr.length];\n}\n\nconsole.log(last([1, 2, 3]));  // expected 3\nconsole.log(last([]));",
+    "bugLine": 2,
+    "bugExplanation": "arr.length is one past the last index, so the result is undefined. Use arr[arr.length - 1].",
+    "hints": [
+      "Always undefined.",
+      "Arrays are zero-indexed.",
+      "Subtract one."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "arr[arr.length - 1]",
+      "arr[arr.length + 1]",
+      "arr[1]"
+    ],
+    "correctAnswer": "arr[arr.length - 1]"
+  },
+  {
+    "title": "Reassigning a const",
+    "description": "Accumulates the total of an array.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "const nums = [1, 2, 3];\nconst total = 0;\nfor (const n of nums) {\n  total += n;\n}\nconsole.log(total);",
+    "bugLine": 2,
+    "bugExplanation": "const bindings can't be reassigned so total += n throws TypeError. Declare with let.",
+    "hints": [
+      "TypeError: assignment to constant variable.",
+      "Look at the declaration keyword.",
+      "Use a mutable binding."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "var total = const 0;",
+      "let total = 0;",
+      "total = 0;"
+    ],
+    "correctAnswer": "let total = 0;"
+  },
+  {
+    "title": "Wrong logical operator",
+    "description": "A person may enter if they are 18+ AND have an ID.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "function canEnter(age, hasId) {\n  return age >= 18 || hasId;\n}\n\nconsole.log(canEnter(15, true));  // expected false\nconsole.log(canEnter(20, true));",
+    "bugLine": 2,
+    "bugExplanation": "|| lets anyone with an ID in even when underage. Both conditions are required, so use &&.",
+    "hints": [
+      "Minors with ID get in.",
+      "Which operator needs both?",
+      "Use AND."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "age >= 18 && hasId",
+      "age <= 18 && hasId",
+      "age > 18 || !hasId"
+    ],
+    "correctAnswer": "age >= 18 && hasId"
+  },
+  {
+    "title": "Comparing with NaN",
+    "description": "Detects when a parsed number is invalid.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "function isInvalid(text) {\n  const value = parseInt(text, 10);\n  if (value === NaN) {\n    return true;\n  }\n  return false;\n}\n\nconsole.log(isInvalid(\"abc\"));  // expected true",
+    "bugLine": 3,
+    "bugExplanation": "NaN is never equal to anything, including itself, so the check is always false. Use Number.isNaN(value).",
+    "hints": [
+      "Invalid input is not detected.",
+      "NaN has special behavior.",
+      "Use the built-in check."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "typeof value === 'NaN'",
+      "Number.isNaN(value)",
+      "value == null"
+    ],
+    "correctAnswer": "Number.isNaN(value)"
+  },
+  {
+    "title": "While loop never increments",
+    "description": "Logs the numbers 0 through 4.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "let i = 0;\nconst seen = [];\nwhile (i < 5) {\n  seen.push(i);\n}\nconsole.log(seen);",
+    "bugLine": 3,
+    "bugExplanation": "i is never changed so the condition stays true and the loop never ends. Add i++ inside the loop.",
+    "hints": [
+      "Browser tab freezes.",
+      "Does i ever change?",
+      "Increment i."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "i--",
+      "i++",
+      "break"
+    ],
+    "correctAnswer": "i++"
+  },
+  {
+    "title": "Default sort is lexicographic",
+    "description": "Sorts numbers in ascending order.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "const nums = [10, 9, 1, 100];\nconst sorted = nums.sort();\nconsole.log(sorted);  // expected [1, 9, 10, 100]\n// Run the example above and compare the output with what is expected.\n// The expected behaviour is described in the task description.\n// Find the single line that causes the wrong result.",
+    "bugLine": 2,
+    "bugExplanation": "sort() without a comparator compares as strings, giving [1, 10, 100, 9]. Pass (a, b) => a - b.",
+    "hints": [
+      "10 comes before 9.",
+      "Default sort converts to strings.",
+      "Provide a numeric comparator."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "nums.sort('asc')",
+      "nums.reverse()",
+      "nums.sort((a, b) => a - b)"
+    ],
+    "correctAnswer": "nums.sort((a, b) => a - b)"
+  },
+  {
+    "title": "length is not a function",
+    "description": "Returns the length of a string.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "function size(str) {\n  return str.length();\n}\n\nconsole.log(size(\"hello\"));  // expected 5\n// Run the example above and compare the output with what is expected.",
+    "bugLine": 2,
+    "bugExplanation": "length is a property, not a method, so calling it throws TypeError. Use str.length.",
+    "hints": [
+      "TypeError: not a function.",
+      "Is length a method?",
+      "Remove the parentheses."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "str.size()",
+      "str.length",
+      "str.count"
+    ],
+    "correctAnswer": "str.length"
+  },
+  {
+    "title": "forEach returns undefined",
+    "description": "Creates a new array with each number doubled.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "const nums = [1, 2, 3];\nconst doubled = nums.forEach((n) => n * 2);\nconsole.log(doubled);  // expected [2, 4, 6]\n// Run the example above and compare the output with what is expected.\n// The expected behaviour is described in the task description.\n// Find the single line that causes the wrong result.",
+    "bugLine": 2,
+    "bugExplanation": "forEach always returns undefined. Use map to create a transformed array.",
+    "hints": [
+      "Output is undefined.",
+      "Which method returns a new array?",
+      "Use map."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "nums.reduce((n) => n * 2)",
+      "nums.filter((n) => n * 2)",
+      "nums.map((n) => n * 2)"
+    ],
+    "correctAnswer": "nums.map((n) => n * 2)"
+  },
+  {
+    "title": "Template literal with wrong quotes",
+    "description": "Builds a greeting that includes the user's name.",
+    "language": "javascript",
+    "difficulty": "easy",
+    "code": "function greet(name) {\n  const msg = 'Hello, ${name}!';\n  return msg;\n}\n\nconsole.log(greet(\"Ana\"));  // expected Hello, Ana!",
+    "bugLine": 2,
+    "bugExplanation": "Template interpolation only works inside backticks. Single quotes print ${name} literally.",
+    "hints": [
+      "The placeholder is printed literally.",
+      "Check the quote characters.",
+      "Use backticks."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "`Hello, ${name}!`",
+      "\"Hello, ${name}!\"",
+      "'Hello, ' + {name} + '!'"
+    ],
+    "correctAnswer": "`Hello, ${name}!`"
+  },
+  {
+    "title": "var in loop closure",
+    "description": "Logs 0, 1, 2 after a delay.",
+    "language": "javascript",
+    "difficulty": "medium",
+    "code": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => {\n    console.log(i);\n  }, 10);\n}\n// expected output: 0 1 2",
+    "bugLine": 1,
+    "bugExplanation": "var is function-scoped, so all callbacks share one i that ends at 3. Use let for a per-iteration binding.",
+    "hints": [
+      "Logs 3 three times.",
+      "Think about var scope.",
+      "Use block scope."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "let i = 0",
+      "var i = 0, j = i",
+      "const i = 0"
+    ],
+    "correctAnswer": "let i = 0"
+  },
+  {
+    "title": "Lost this in callback",
+    "description": "Increments a counter every 100ms.",
+    "language": "javascript",
+    "difficulty": "medium",
+    "code": "function Timer() {\n  this.count = 0;\n  setInterval(function () {\n    this.count++;\n    console.log(this.count);\n  }, 100);\n}\nnew Timer();",
+    "bugLine": 4,
+    "bugExplanation": "In a regular function callback, this isn't the Timer instance. Use an arrow function to keep the outer this.",
+    "hints": [
+      "count prints NaN.",
+      "What is this inside the callback?",
+      "Arrow functions inherit this."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "this.count.bind()",
+      "setInterval(() => {",
+      "this = self"
+    ],
+    "correctAnswer": "setInterval(() => {"
+  },
+  {
+    "title": "Missing await on fetch",
+    "description": "Loads a user and prints the name.",
+    "language": "javascript",
+    "difficulty": "medium",
+    "code": "async function loadUser(id) {\n  const res = fetch(`/api/users/${id}`);\n  const user = await res.json();\n  console.log(user.name);\n}\n\nloadUser(1);",
+    "bugLine": 2,
+    "bugExplanation": "fetch returns a Promise; without await res is a Promise with no json method. Use await fetch(...).",
+    "hints": [
+      "res.json is not a function.",
+      "fetch is asynchronous.",
+      "Await it."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "await fetch(`/api/users/${id}`)",
+      "fetch.sync(...)",
+      "fetch(...).value"
+    ],
+    "correctAnswer": "await fetch(`/api/users/${id}`)"
+  },
+  {
+    "title": "Comparing arrays with ===",
+    "description": "Checks whether two arrays have the same contents.",
+    "language": "javascript",
+    "difficulty": "medium",
+    "code": "function sameArray(a, b) {\n  return a === b;\n}\n\nconsole.log(sameArray([1, 2], [1, 2]));  // expected true\n// Run the example above and compare the output with what is expected.",
+    "bugLine": 2,
+    "bugExplanation": "=== on arrays compares references, so different objects are never equal. Compare contents, e.g. JSON.stringify(a) === JSON.stringify(b).",
+    "hints": [
+      "Equal arrays report false.",
+      "Objects compare by reference.",
+      "Compare serialized or element-wise."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "a == b",
+      "JSON.stringify(a) === JSON.stringify(b)",
+      "a.length === b"
+    ],
+    "correctAnswer": "JSON.stringify(a) === JSON.stringify(b)"
+  },
+  {
+    "title": "parseInt on decimal strings",
+    "description": "Converts a price string to a number.",
+    "language": "javascript",
+    "difficulty": "medium",
+    "code": "function toPrice(s) {\n  return parseInt(s, 10);\n}\n\nconsole.log(toPrice(\"19.99\"));  // expected 19.99\n// Run the example above and compare the output with what is expected.",
+    "bugLine": 2,
+    "bugExplanation": "parseInt stops at the decimal point and returns 19. Use parseFloat.",
+    "hints": [
+      "The cents disappear.",
+      "Check the parsing function.",
+      "Use parseFloat."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "Number.parseInt(s)",
+      "Math.floor(s)",
+      "parseFloat(s)"
+    ],
+    "correctAnswer": "parseFloat(s)"
+  },
+  {
+    "title": "reduce without initial value",
+    "description": "Sums the price property of cart items.",
+    "language": "javascript",
+    "difficulty": "medium",
+    "code": "const cart = [{ price: 5 }, { price: 7 }];\nconst total = cart.reduce((sum, item) => sum + item.price);\nconsole.log(total);  // expected 12\n// Run the example above and compare the output with what is expected.\n// The expected behaviour is described in the task description.\n// Find the single line that causes the wrong result.",
+    "bugLine": 2,
+    "bugExplanation": "Without an initial value, sum starts as the first object, giving '[object Object]7'. Pass 0 as the initial value.",
+    "hints": [
+      "Output looks like [object Object]7.",
+      "What is sum on the first call?",
+      "Provide an initial value."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "cart.reduce((sum, item) => sum + item)",
+      "cart.map((item) => item.price)",
+      "cart.reduce((sum, item) => sum + item.price, 0)"
+    ],
+    "correctAnswer": "cart.reduce((sum, item) => sum + item.price, 0)"
+  },
+  {
+    "title": "typeof null is object",
+    "description": "Returns true only for non-null objects.",
+    "language": "javascript",
+    "difficulty": "medium",
+    "code": "function isObject(x) {\n  return typeof x === \"object\";\n}\n\nconsole.log(isObject({}));\nconsole.log(isObject(null));  // expected false",
+    "bugLine": 2,
+    "bugExplanation": "typeof null is 'object' in JavaScript, so null passes. Add a null check.",
+    "hints": [
+      "null is treated as an object.",
+      "A well-known quirk.",
+      "Exclude null."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "typeof x == \"function\"",
+      "x !== null && typeof x === \"object\"",
+      "x instanceof null"
+    ],
+    "correctAnswer": "x !== null && typeof x === \"object\""
+  },
+  {
+    "title": "Mutating shared nested state",
+    "description": "Adds an item to a cart without mutating the old state.",
+    "language": "javascript",
+    "difficulty": "medium",
+    "code": "function addItem(state, item) {\n  const copy = { ...state };\n  copy.items.push(item);\n  return copy;\n}\n\nconst s1 = { items: [\"a\"] };\nconst s2 = addItem(s1, \"b\");\nconsole.log(s1.items);  // expected [\"a\"]",
+    "bugLine": 3,
+    "bugExplanation": "The spread is shallow, so copy.items is the same array as state.items and push mutates both. Create a new array: items: [...state.items, item].",
+    "hints": [
+      "The original state changes.",
+      "Spread copies one level.",
+      "Copy the array too."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "copy.items = [...state.items, item]",
+      "copy.items.slice(item)",
+      "copy.items.concat = item"
+    ],
+    "correctAnswer": "copy.items = [...state.items, item]"
+  },
+  {
+    "title": "splice removes too much",
+    "description": "Removes one element at index i.",
+    "language": "javascript",
+    "difficulty": "medium",
+    "code": "function removeAt(arr, i) {\n  arr.splice(i);\n  return arr;\n}\n\nconsole.log(removeAt([1, 2, 3, 4], 1));  // expected [1, 3, 4]",
+    "bugLine": 2,
+    "bugExplanation": "splice(i) with no count removes everything from i onward. Use splice(i, 1).",
+    "hints": [
+      "More items vanish than expected.",
+      "Check splice arguments.",
+      "Provide a delete count."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "arr.slice(i)",
+      "arr.splice(i, 1)",
+      "arr.splice(i, 0)"
+    ],
+    "correctAnswer": "arr.splice(i, 1)"
+  },
+  {
+    "title": "for...in over array gives strings",
+    "description": "Adds 1 to each array index.",
+    "language": "javascript",
+    "difficulty": "medium",
+    "code": "const arr = [\"x\", \"y\", \"z\"];\nconst next = [];\nfor (const i in arr) {\n  next.push(i + 1);\n}\nconsole.log(next);  // expected [1, 2, 3]",
+    "bugLine": 4,
+    "bugExplanation": "for...in yields string keys so '0' + 1 is '01'. Convert with Number(i) + 1.",
+    "hints": [
+      "You get '01', '11', '21'.",
+      "What type is i?",
+      "Convert to a number."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "Number(i) + 1",
+      "i++ + 1",
+      "parseInt(i + 1)"
+    ],
+    "correctAnswer": "Number(i) + 1"
+  },
+  {
+    "title": "Zero-based month in Date",
+    "description": "Creates a Date for December 1st, 2024.",
+    "language": "javascript",
+    "difficulty": "medium",
+    "code": "function decemberFirst() {\n  return new Date(2024, 12, 1);\n}\n\nconst d = decemberFirst();\nconsole.log(d.getMonth());  // expected 11\nconsole.log(d.getFullYear());",
+    "bugLine": 2,
+    "bugExplanation": "Months are zero-based so 12 rolls into January 2025. Use 11 for December.",
+    "hints": [
+      "The year is wrong.",
+      "Month numbering.",
+      "December is 11."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "new Date(2024, 11, 1)",
+      "new Date(2024, 0, 12)",
+      "new Date(2024, 13, 1)"
+    ],
+    "correctAnswer": "new Date(2024, 11, 1)"
+  },
+  {
+    "title": "Debounce timer re-created",
+    "description": "Debounces a function so only the last call in 200ms runs.",
+    "language": "javascript",
+    "difficulty": "medium",
+    "code": "function debounce(fn, delay) {\n  return function (...args) {\n    let timer;\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), delay);\n  };\n}\n\nconst log = debounce(console.log, 200);\nlog(\"a\"); log(\"b\");  // expected only \"b\"",
+    "bugLine": 3,
+    "bugExplanation": "timer is re-declared on every call so clearTimeout never sees the previous timer. Declare it outside the returned function.",
+    "hints": [
+      "Every call still fires.",
+      "Where does timer live?",
+      "Move it to the outer scope."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "clearTimeout(fn);",
+      "let timer = 0;",
+      "declare timer outside the inner function"
+    ],
+    "correctAnswer": "declare timer outside the inner function"
+  },
+  {
+    "title": "Falsy zero defaulting",
+    "description": "Uses 3000 as a default port when none is configured.",
+    "language": "javascript",
+    "difficulty": "medium",
+    "code": "function getPort(config) {\n  return config.port || 3000;\n}\n\nconsole.log(getPort({}));\nconsole.log(getPort({ port: 0 }));  // expected 0",
+    "bugLine": 2,
+    "bugExplanation": "|| replaces any falsy value, including 0. Use ?? to default only for null or undefined.",
+    "hints": [
+      "A port of 0 is overridden.",
+      "0 is falsy.",
+      "Use nullish coalescing."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "config.port ?? 3000",
+      "config.port && 3000",
+      "config.port | 3000"
+    ],
+    "correctAnswer": "config.port ?? 3000"
+  },
+  {
+    "title": "Async callback in forEach",
+    "description": "Processes items one by one and logs 'done' afterwards.",
+    "language": "javascript",
+    "difficulty": "hard",
+    "code": "async function processAll(items) {\n  items.forEach(async (item) => {\n    await saveItem(item);\n  });\n  console.log(\"done\");  // should print after all saves\n}\n\nconst saveItem = (x) => new Promise((r) => setTimeout(r, 10));\nprocessAll([1, 2, 3]);",
+    "bugLine": 2,
+    "bugExplanation": "forEach doesn't await async callbacks so 'done' logs immediately. Use for...of with await (or Promise.all with map).",
+    "hints": [
+      "'done' prints too early.",
+      "forEach ignores returned promises.",
+      "Use for...of."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "items.map(async (item) => {",
+      "items.forEach((item) => await",
+      "for (const item of items) {"
+    ],
+    "correctAnswer": "for (const item of items) {"
+  },
+  {
+    "title": "Memoize key collision",
+    "description": "Caches results of an expensive function by arguments.",
+    "language": "javascript",
+    "difficulty": "hard",
+    "code": "function memoize(fn) {\n  const cache = {};\n  return (...args) => {\n    const key = args.join(\"\");\n    if (!(key in cache)) cache[key] = fn(...args);\n    return cache[key];\n  };\n}\nconst add = memoize((a, b) => a + b);\nconsole.log(add(1, 23), add(12, 3));  // expected 24 15",
+    "bugLine": 4,
+    "bugExplanation": "Joining with an empty string makes (1,23) and (12,3) both '123'. Use a separator such as ','.",
+    "hints": [
+      "Different calls return the same cached value.",
+      "Different inputs share one key.",
+      "Add a delimiter."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "args.length",
+      "args.join(\",\")",
+      "args.toString().length"
+    ],
+    "correctAnswer": "args.join(\",\")"
+  },
+  {
+    "title": "Arrow function as prototype method",
+    "description": "Adds a greet method to Person.",
+    "language": "javascript",
+    "difficulty": "hard",
+    "code": "function Person(name) {\n  this.name = name;\n}\nPerson.prototype.greet = () => {\n  return \"Hi, \" + this.name;\n};\n\nconsole.log(new Person(\"Mia\").greet());",
+    "bugLine": 4,
+    "bugExplanation": "Arrow functions don't bind their own this so this.name isn't the instance. Use a regular function.",
+    "hints": [
+      "Output says Hi, undefined.",
+      "Arrow functions and this.",
+      "Use function()."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "this.name.bind(Person)",
+      "Person.prototype.greet = function () {",
+      "Person.greet = () =>"
+    ],
+    "correctAnswer": "Person.prototype.greet = function () {"
+  },
+  {
+    "title": "Promise chain not returned",
+    "description": "Fetches a user then their posts, in order.",
+    "language": "javascript",
+    "difficulty": "hard",
+    "code": "function loadAll(id) {\n  return getUser(id)\n    .then((user) => {\n      getPosts(user.id);\n    })\n    .then((posts) => console.log(posts));\n}\nconst getUser = async (id) => ({ id });\nconst getPosts = async (id) => [\"p1\", \"p2\"];\nloadAll(1);  // expected [\"p1\",\"p2\"]",
+    "bugLine": 4,
+    "bugExplanation": "The inner promise isn't returned so the next then receives undefined. Use return getPosts(user.id).",
+    "hints": [
+      "The logged posts value is undefined.",
+      "What does the first then return?",
+      "Return the promise."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "getPosts(user).then();",
+      "return getPosts(user.id);",
+      "await getPosts;"
+    ],
+    "correctAnswer": "return getPosts(user.id);"
+  },
+  {
+    "title": "Binary search never moves lo",
+    "description": "Finds a value in a sorted array.",
+    "language": "javascript",
+    "difficulty": "hard",
+    "code": "function search(arr, target) {\n  let lo = 0, hi = arr.length - 1;\n  while (lo <= hi) {\n    const mid = Math.floor((lo + hi) / 2);\n    if (arr[mid] === target) return mid;\n    if (arr[mid] < target) lo = mid;\n    else hi = mid - 1;\n  }\n  return -1;\n}",
+    "bugLine": 6,
+    "bugExplanation": "lo = mid doesn't shrink the range when lo === mid, creating an infinite loop. Use lo = mid + 1.",
+    "hints": [
+      "The loop sometimes hangs.",
+      "Does the interval shrink?",
+      "Move past mid."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "hi = mid",
+      "lo = mid - 1",
+      "lo = mid + 1"
+    ],
+    "correctAnswer": "lo = mid + 1"
+  },
+  {
+    "title": "flat default depth",
+    "description": "Flattens an array of arbitrary depth.",
+    "language": "javascript",
+    "difficulty": "hard",
+    "code": "const nested = [1, [2, [3, [4]]]];\nconst flatArr = nested.flat();\nconsole.log(flatArr);  // expected [1, 2, 3, 4]\n// Run the example above and compare the output with what is expected.\n// The expected behaviour is described in the task description.\n// Find the single line that causes the wrong result.",
+    "bugLine": 2,
+    "bugExplanation": "flat() flattens only one level by default. Use flat(Infinity).",
+    "hints": [
+      "Still nested.",
+      "Check flat's default depth.",
+      "Pass Infinity."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "nested.flat(0)",
+      "nested.flat(Infinity)",
+      "nested.flatten()"
+    ],
+    "correctAnswer": "nested.flat(Infinity)"
+  },
+  {
+    "title": "JSON clone loses Dates",
+    "description": "Deep clones an object that contains a Date.",
+    "language": "javascript",
+    "difficulty": "hard",
+    "code": "const original = { name: \"x\", created: new Date() };\nconst copy = JSON.parse(JSON.stringify(original));\nconsole.log(copy.created instanceof Date);  // expected true\n// Run the example above and compare the output with what is expected.\n// The expected behaviour is described in the task description.\n// Find the single line that causes the wrong result.",
+    "bugLine": 2,
+    "bugExplanation": "JSON serialization turns Dates into strings. Use structuredClone(original).",
+    "hints": [
+      "created becomes a string.",
+      "What does JSON do with Dates?",
+      "Use a real deep clone."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "structuredClone(original)",
+      "Object.assign({}, original)",
+      "{ ...original }"
+    ],
+    "correctAnswer": "structuredClone(original)"
+  },
+  {
+    "title": "Sort comparator returns boolean",
+    "description": "Sorts numbers ascending.",
+    "language": "javascript",
+    "difficulty": "hard",
+    "code": "const nums = [5, 1, 4, 2, 3];\nnums.sort((a, b) => a > b);\nconsole.log(nums);  // expected [1, 2, 3, 4, 5]\n// Run the example above and compare the output with what is expected.\n// The expected behaviour is described in the task description.\n// Find the single line that causes the wrong result.",
+    "bugLine": 2,
+    "bugExplanation": "Comparators must return negative, zero or positive numbers; a boolean gives only 0 or 1 and results are inconsistent. Return a - b.",
+    "hints": [
+      "Sorted order is unreliable.",
+      "What should a comparator return?",
+      "Subtract values."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "(a, b) => b > a",
+      "(a, b) => a < b",
+      "(a, b) => a - b"
+    ],
+    "correctAnswer": "(a, b) => a - b"
+  },
+  {
+    "title": "Lost this in debounce wrapper",
+    "description": "Wraps a method so this is preserved.",
+    "language": "javascript",
+    "difficulty": "hard",
+    "code": "function wrap(fn) {\n  return function (...args) {\n    return fn(...args);\n  };\n}\n\nconst obj = { n: 2, get: wrap(function () { return this.n; }) };\nconsole.log(obj.get());  // expected 2",
+    "bugLine": 3,
+    "bugExplanation": "Calling fn directly drops the this of the wrapper. Use fn.apply(this, args).",
+    "hints": [
+      "this is undefined in the original.",
+      "Who is this in the wrapper?",
+      "Forward this."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "fn.apply(this, args)",
+      "fn(this, ...args)",
+      "fn.bind(args)"
+    ],
+    "correctAnswer": "fn.apply(this, args)"
+  },
+  {
+    "title": "Set of objects does not dedupe",
+    "description": "Returns the unique users by id.",
+    "language": "javascript",
+    "difficulty": "hard",
+    "code": "const users = [{ id: 1 }, { id: 2 }, { id: 1 }];\nconst unique = [...new Set(users)];\nconsole.log(unique.length);  // expected 2\n// Run the example above and compare the output with what is expected.\n// The expected behaviour is described in the task description.\n// Find the single line that causes the wrong result.",
+    "bugLine": 2,
+    "bugExplanation": "A Set compares objects by reference so no duplicates are removed. Dedupe by id instead, e.g. via a Map.",
+    "hints": [
+      "Length is still 3.",
+      "Objects are compared by reference.",
+      "Key by id."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "[...new Map(users.map((u) => [u.id, u])).values()]",
+      "[...new Set(users.join())]",
+      "users.filter(Boolean)"
+    ],
+    "correctAnswer": "[...new Map(users.map((u) => [u.id, u])).values()]"
+  },
+  {
+    "title": "Recursive flatten discards concat",
+    "description": "Flattens nested arrays recursively.",
+    "language": "javascript",
+    "difficulty": "hard",
+    "code": "function flatten(arr) {\n  let result = [];\n  for (const x of arr) {\n    if (Array.isArray(x)) result.concat(flatten(x));\n    else result.push(x);\n  }\n  return result;\n}\nconsole.log(flatten([1, [2, [3]]]));  // expected [1, 2, 3]",
+    "bugLine": 4,
+    "bugExplanation": "concat returns a new array and doesn't mutate result, so nested values are lost. Assign: result = result.concat(...).",
+    "hints": [
+      "Nested numbers are missing.",
+      "concat doesn't mutate.",
+      "Assign the returned array."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "result.concat = flatten(x)",
+      "result = result.concat(flatten(x))",
+      "result.push(flatten(x))"
+    ],
+    "correctAnswer": "result = result.concat(flatten(x))"
+  },
+  {
+    "title": "Global regex keeps state",
+    "description": "Tests several strings against a pattern.",
+    "language": "javascript",
+    "difficulty": "hard",
+    "code": "const re = /abc/g;\nconst words = [\"abc\", \"abc\", \"abc\"];\nconst results = words.map((w) => re.test(w));\nconsole.log(results);  // expected [true, true, true]\n// Run the example above and compare the output with what is expected.\n// The expected behaviour is described in the task description.",
+    "bugLine": 1,
+    "bugExplanation": "A regex with the g flag keeps lastIndex between test() calls, so alternate calls fail. Remove the g flag.",
+    "hints": [
+      "Results alternate true/false.",
+      "Regex objects hold state.",
+      "Drop the global flag."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "/abc/",
+      "/abc/gm",
+      "/abc/i"
+    ],
+    "correctAnswer": "/abc/"
+  },
+  {
+    "title": "Floating point money",
+    "description": "Converts a dollar amount to cents.",
+    "language": "javascript",
+    "difficulty": "hard",
+    "code": "function toCents(price) {\n  return price * 100;\n}\n\nconsole.log(toCents(19.99));  // expected 1999\nconsole.log(toCents(0.57));   // expected 57",
+    "bugLine": 2,
+    "bugExplanation": "Floating-point multiplication produces values like 1998.9999999999998. Round the result: Math.round(price * 100).",
+    "hints": [
+      "Results have long decimals.",
+      "Floats are inexact.",
+      "Round the product."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "Math.floor(price * 100)",
+      "price * 10 * 10",
+      "Math.round(price * 100)"
+    ],
+    "correctAnswer": "Math.round(price * 100)"
+  },
+  {
+    "title": "Wrong return type annotation",
+    "description": "Adds two numbers and returns the sum.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "function add(a: number, b: number): string {\n  return a + b;\n}\n\nconst total: number = add(2, 3);\nconsole.log(total);",
+    "bugLine": 1,
+    "bugExplanation": "The function returns a number but is annotated as string, causing a type error. Change the return type to number.",
+    "hints": [
+      "The compiler complains about the return.",
+      "Compare annotation with the value returned.",
+      "Return type should be number."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      ": number",
+      ": void",
+      "(a: string)"
+    ],
+    "correctAnswer": ": number"
+  },
+  {
+    "title": "Loop runs one too far",
+    "description": "Doubles every element in a numeric array.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "const nums: number[] = [1, 2, 3];\nconst out: number[] = [];\nfor (let i = 0; i <= nums.length; i++) {\n  out.push(nums[i] * 2);\n}\nconsole.log(out);",
+    "bugLine": 3,
+    "bugExplanation": "When i equals nums.length the element is undefined, producing NaN. Use i < nums.length.",
+    "hints": [
+      "The last result is NaN.",
+      "Check the loop bound.",
+      "Indexes stop at length - 1."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "i <= nums.length - 2",
+      "i < nums.length",
+      "i < nums.length - 1"
+    ],
+    "correctAnswer": "i < nums.length"
+  },
+  {
+    "title": "Optional property accessed unsafely",
+    "description": "Prints a user's profile name if it exists.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "interface User {\n  name: string;\n  profile?: { nickname: string };\n}\n\nfunction nick(user: User): string {\n  return user.profile.nickname;\n}",
+    "bugLine": 7,
+    "bugExplanation": "profile is optional and may be undefined, so access can throw. Use user.profile?.nickname ?? user.name.",
+    "hints": [
+      "Possibly undefined error.",
+      "The ? in the interface matters.",
+      "Use optional chaining."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "user.profile!.nickname",
+      "user.profile || nickname",
+      "user.profile?.nickname ?? user.name"
+    ],
+    "correctAnswer": "user.profile?.nickname ?? user.name"
+  },
+  {
+    "title": "String assigned to number",
+    "description": "Stores a numeric count.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "let count: number = \"5\";\ncount += 1;\n\nfunction show(n: number): string {\n  return `Count: ${n}`;\n}\nconsole.log(show(count));",
+    "bugLine": 1,
+    "bugExplanation": "A string literal can't be assigned to a number variable. Assign the number 5.",
+    "hints": [
+      "Type 'string' is not assignable.",
+      "Check the declared type.",
+      "Remove the quotes."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "let count: number = 5;",
+      "let count: string = 5;",
+      "let count = Number;"
+    ],
+    "correctAnswer": "let count: number = 5;"
+  },
+  {
+    "title": "Missing return in some code path",
+    "description": "Returns the absolute value of a number.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "function abs(n: number): number {\n  if (n < 0) {\n    return -n;\n  }\n}\n\nconsole.log(abs(-4));\nconsole.log(abs(4));  // expected 4",
+    "bugLine": 2,
+    "bugExplanation": "Positive numbers fall through and return undefined. Add return n after the if block.",
+    "hints": [
+      "Positive inputs return undefined.",
+      "What if n is not negative?",
+      "Add a final return."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "return 0;",
+      "return n;",
+      "else return null;"
+    ],
+    "correctAnswer": "return n;"
+  },
+  {
+    "title": "Using = instead of ===",
+    "description": "Finds whether the status is 'done'.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "type Status = \"todo\" | \"done\";\n\nfunction isDone(status: Status): boolean {\n  if (status = \"done\") {\n    return true;\n  }\n  return false;\n}",
+    "bugLine": 4,
+    "bugExplanation": "= assigns instead of comparing, so the check is always truthy. Use ===.",
+    "hints": [
+      "Always returns true.",
+      "Look at the operator.",
+      "Use strict equality."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "status === \"done\"",
+      "status == \"todo\"",
+      "status !== \"done\""
+    ],
+    "correctAnswer": "status === \"done\""
+  },
+  {
+    "title": "Mutating a readonly property",
+    "description": "Updates the port of a configuration without mutating it.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "interface Config {\n  readonly port: number;\n  host: string;\n}\n\nconst cfg: Config = { port: 80, host: \"x\" };\ncfg.port = 8080;\nconsole.log(cfg);",
+    "bugLine": 7,
+    "bugExplanation": "readonly properties cannot be assigned after creation. Create a new object: { ...cfg, port: 8080 }.",
+    "hints": [
+      "Cannot assign to 'port'.",
+      "Look at readonly.",
+      "Create a modified copy."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "const next = { ...cfg, port: 8080 };",
+      "cfg.port == 8080;",
+      "delete cfg.port;"
+    ],
+    "correctAnswer": "const next = { ...cfg, port: 8080 };"
+  },
+  {
+    "title": "Index one past the end",
+    "description": "Gets the final item from a list.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "function last<T>(items: T[]): T {\n  return items[items.length];\n}\n\nconsole.log(last([1, 2, 3]));\nconsole.log(last([\"a\"]));",
+    "bugLine": 2,
+    "bugExplanation": "The last valid index is length - 1. items[items.length] is undefined.",
+    "hints": [
+      "Always undefined.",
+      "Zero-based indexing.",
+      "Subtract one."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "items[items.length + 1]",
+      "items[1]",
+      "items[items.length - 1]"
+    ],
+    "correctAnswer": "items[items.length - 1]"
+  },
+  {
+    "title": "Find result used without check",
+    "description": "Returns the name of the user with a given id.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "interface User { id: number; name: string }\n\nfunction nameOf(users: User[], id: number): string {\n  return users.find((u) => u.id === id).name;\n}\n\nconsole.log(nameOf([{ id: 1, name: \"A\" }], 2));",
+    "bugLine": 4,
+    "bugExplanation": "find returns undefined when nothing matches, so accessing .name throws. Use ?.name ?? 'unknown'.",
+    "hints": [
+      "Object is possibly undefined.",
+      "find may return nothing.",
+      "Use optional chaining."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "users.find((u) => u.id === id)?.name ?? \"unknown\"",
+      "users.filter((u) => u.id === id).name",
+      "users.find((u) => u.id === id)!.name"
+    ],
+    "correctAnswer": "users.find((u) => u.id === id)?.name ?? \"unknown\""
+  },
+  {
+    "title": "Union not narrowed",
+    "description": "Returns the length of a string or the digits of a number.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "function size(x: string | number): number {\n  return x.length;\n}\n\nconsole.log(size(\"hello\"));\nconsole.log(size(12345));",
+    "bugLine": 2,
+    "bugExplanation": "number has no length property and the union isn't narrowed. Check typeof x first.",
+    "hints": [
+      "Property 'length' does not exist.",
+      "The type is a union.",
+      "Narrow with typeof."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "(x as string).length",
+      "x.toString.length",
+      "typeof x === \"string\" ? x.length : String(x).length"
+    ],
+    "correctAnswer": "typeof x === \"string\" ? x.length : String(x).length"
+  },
+  {
+    "title": "Returns wrong element",
+    "description": "Returns the first element of an array.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "function first<T>(arr: T[]): T {\n  return arr[1];\n}\n\nconsole.log(first([10, 20, 30]));  // expected 10\n// Run the example above and compare the output with what is expected.",
+    "bugLine": 2,
+    "bugExplanation": "Indexes start at 0. The first element is arr[0].",
+    "hints": [
+      "The second item is returned.",
+      "Check which index is used.",
+      "Use zero."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "arr[0]",
+      "arr[arr.length]",
+      "arr.shift"
+    ],
+    "correctAnswer": "arr[0]"
+  },
+  {
+    "title": "Minimum initialised to zero",
+    "description": "Finds the smallest number in an array of positive numbers.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "function minOf(nums: number[]): number {\n  let min = 0;\n  for (const n of nums) {\n    if (n < min) min = n;\n  }\n  return min;\n}\nconsole.log(minOf([4, 2, 9]));  // expected 2",
+    "bugLine": 2,
+    "bugExplanation": "Starting at 0 means no positive number is ever smaller, so 0 is returned. Initialize with Infinity or nums[0].",
+    "hints": [
+      "The result is always 0.",
+      "What is the initial minimum?",
+      "Start with a big value."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "let min = -1;",
+      "let min = Infinity;",
+      "let min = null;"
+    ],
+    "correctAnswer": "let min = Infinity;"
+  },
+  {
+    "title": "Object.keys returns strings",
+    "description": "Adds 1 to every numeric key of a record.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "const scores: Record<number, string> = { 1: \"a\", 2: \"b\" };\nconst next: number[] = [];\nfor (const key of Object.keys(scores)) {\n  next.push(key + 1);\n}\nconsole.log(next);  // expected [2, 3]",
+    "bugLine": 4,
+    "bugExplanation": "Object.keys returns strings, so '1' + 1 is '11' (and doesn't type-check). Convert with Number(key).",
+    "hints": [
+      "Result is '11'.",
+      "Keys are always strings.",
+      "Convert to number."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "key++ + 1",
+      "parseInt(key + 1)",
+      "Number(key) + 1"
+    ],
+    "correctAnswer": "Number(key) + 1"
+  },
+  {
+    "title": "Countdown never decrements",
+    "description": "Collects numbers from n down to 1.",
+    "language": "typescript",
+    "difficulty": "easy",
+    "code": "function countdown(n: number): number[] {\n  const out: number[] = [];\n  while (n > 0) {\n    out.push(n);\n  }\n  return out;\n}\nconsole.log(countdown(3));",
+    "bugLine": 3,
+    "bugExplanation": "n is never decremented, so the loop runs forever. Add n-- (or n -= 1) in the loop.",
+    "hints": [
+      "Infinite loop.",
+      "Does n change?",
+      "Decrement n."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "n--",
+      "n++",
+      "break"
+    ],
+    "correctAnswer": "n--"
+  },
+  {
+    "title": "Non-null assertion hides null",
+    "description": "Reads the value of an input element.",
+    "language": "typescript",
+    "difficulty": "medium",
+    "code": "function readValue(id: string): string {\n  const el = document.getElementById(id);\n  return (el as HTMLInputElement).value;\n}\n\nconsole.log(readValue(\"missing\"));",
+    "bugLine": 3,
+    "bugExplanation": "The cast hides that getElementById can return null, causing a runtime TypeError. Add a null check.",
+    "hints": [
+      "Runtime crash on missing id.",
+      "Casts don't validate.",
+      "Check for null."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "el instanceof HTMLInputElement ? el.value : \"\"",
+      "el!.value!",
+      "el as any"
+    ],
+    "correctAnswer": "el instanceof HTMLInputElement ? el.value : \"\""
+  },
+  {
+    "title": "Missing await on async call",
+    "description": "Fetches JSON from a URL and returns it.",
+    "language": "typescript",
+    "difficulty": "medium",
+    "code": "async function getData(url: string): Promise<unknown> {\n  const res: Response = fetch(url);\n  return res.json();\n}\n\ngetData(\"/api\").then(console.log);",
+    "bugLine": 2,
+    "bugExplanation": "fetch returns a Promise<Response>, not a Response. Add await.",
+    "hints": [
+      "Type 'Promise<Response>' is not assignable.",
+      "fetch is async.",
+      "Await the call."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "fetch(url).value",
+      "await fetch(url)",
+      "fetch(url).sync()"
+    ],
+    "correctAnswer": "await fetch(url)"
+  },
+  {
+    "title": "Async function never returns value",
+    "description": "Loads a record and returns its value.",
+    "language": "typescript",
+    "difficulty": "medium",
+    "code": "interface Rec { value: number }\ndeclare function get(): Promise<Rec>;\n\nasync function load(): Promise<number> {\n  const r = await get();\n  r.value;\n}\n\nload().then(console.log);",
+    "bugLine": 6,
+    "bugExplanation": "The function computes r.value but never returns it, so the promise resolves to undefined. Use return r.value.",
+    "hints": [
+      "Resolves undefined.",
+      "Where is the value returned?",
+      "Add return."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "await r.value;",
+      "void r.value;",
+      "return r.value;"
+    ],
+    "correctAnswer": "return r.value;"
+  },
+  {
+    "title": "Wrong property in discriminated union",
+    "description": "Computes the area of a shape.",
+    "language": "typescript",
+    "difficulty": "medium",
+    "code": "type Shape =\n  | { kind: \"circle\"; radius: number }\n  | { kind: \"square\"; side: number };\n\nfunction area(shape: Shape): number {\n  if (shape.kind === \"square\") return shape.radius ** 2;\n  return Math.PI * shape.radius ** 2;\n}",
+    "bugLine": 6,
+    "bugExplanation": "Inside the 'square' branch the type is the square variant, which has side not radius. Use shape.side ** 2.",
+    "hints": [
+      "Property 'radius' does not exist.",
+      "Which variant is narrowed?",
+      "Use side."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "shape.width * 2",
+      "shape.side ** 2",
+      "shape.kind ** 2"
+    ],
+    "correctAnswer": "shape.side ** 2"
+  },
+  {
+    "title": "Spread order overrides user options",
+    "description": "Merges defaults with user overrides where overrides win.",
+    "language": "typescript",
+    "difficulty": "medium",
+    "code": "interface Opts { color: string; size: number }\nconst defaults: Opts = { color: \"red\", size: 10 };\n\nfunction configure(overrides: Partial<Opts>): Opts {\n  return { ...overrides, ...defaults };\n}\nconsole.log(configure({ size: 20 }));  // expected size 20",
+    "bugLine": 5,
+    "bugExplanation": "Later spreads win, so defaults overwrite the overrides. Reverse the order.",
+    "hints": [
+      "Overrides are ignored.",
+      "Later spread wins.",
+      "Swap the spreads."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "{ ...defaults }",
+      "Object.assign(overrides, defaults)",
+      "{ ...defaults, ...overrides }"
+    ],
+    "correctAnswer": "{ ...defaults, ...overrides }"
+  },
+  {
+    "title": "sort mutates the original",
+    "description": "Returns a sorted copy without changing the input.",
+    "language": "typescript",
+    "difficulty": "medium",
+    "code": "function sortedCopy(items: number[]): number[] {\n  return items.sort((a, b) => a - b);\n}\n\nconst original = [3, 1, 2];\nsortedCopy(original);\nconsole.log(original);  // expected [3, 1, 2]",
+    "bugLine": 2,
+    "bugExplanation": "Array.sort sorts in place and returns the same array. Copy first: [...items].sort(...).",
+    "hints": [
+      "The original array changes.",
+      "sort mutates.",
+      "Copy before sorting."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "[...items].sort((a, b) => a - b)",
+      "items.reverse()",
+      "items.slice.sort()"
+    ],
+    "correctAnswer": "[...items].sort((a, b) => a - b)"
+  },
+  {
+    "title": "Page default off by one",
+    "description": "Calculates the offset for a 1-based page number.",
+    "language": "typescript",
+    "difficulty": "medium",
+    "code": "function offset(page = 0, size = 10): number {\n  return (page - 1) * size;\n}\n\nconsole.log(offset());  // expected 0\n// Run the example above and compare the output with what is expected.",
+    "bugLine": 1,
+    "bugExplanation": "With page = 0 the offset becomes -10. Pages are 1-based so the default should be 1.",
+    "hints": [
+      "Negative offset by default.",
+      "Check the default value.",
+      "Default to the first page."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "page = 1",
+      "size = 0",
+      "page = -1"
+    ],
+    "correctAnswer": "page = 1"
+  },
+  {
+    "title": "Generic missing length constraint",
+    "description": "Returns the longer of two values.",
+    "language": "typescript",
+    "difficulty": "medium",
+    "code": "function longest<T>(a: T, b: T): T {\n  return a.length >= b.length ? a : b;\n}\n\nconsole.log(longest(\"abc\", \"de\"));\nconsole.log(longest([1], [1, 2]));",
+    "bugLine": 1,
+    "bugExplanation": "Type T has no length property. Constrain it: T extends { length: number }.",
+    "hints": [
+      "Property 'length' does not exist on T.",
+      "What can T be?",
+      "Add a constraint."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "<T extends { length: number }>",
+      "<T = string>",
+      "<T, length>"
+    ],
+    "correctAnswer": "<T extends { length: number }>"
+  },
+  {
+    "title": "Map.get may be undefined",
+    "description": "Counts occurrences using a Map.",
+    "language": "typescript",
+    "difficulty": "medium",
+    "code": "function count(words: string[]): Map<string, number> {\n  const m = new Map<string, number>();\n  for (const w of words) {\n    m.set(w, m.get(w) + 1);\n  }\n  return m;\n}",
+    "bugLine": 4,
+    "bugExplanation": "m.get returns undefined for new keys, producing NaN. Use (m.get(w) ?? 0) + 1.",
+    "hints": [
+      "Counts are NaN.",
+      "Missing key returns undefined.",
+      "Provide a default."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "m.has(w) + 1",
+      "(m.get(w) ?? 0) + 1",
+      "m.get(w)! + 1"
+    ],
+    "correctAnswer": "(m.get(w) ?? 0) + 1"
+  },
+  {
+    "title": "Comparing Dates by reference",
+    "description": "Checks whether two dates are the same moment.",
+    "language": "typescript",
+    "difficulty": "medium",
+    "code": "function same(a: Date, b: Date): boolean {\n  return a === b;\n}\n\nconst d1 = new Date(2024, 0, 1);\nconst d2 = new Date(2024, 0, 1);\nconsole.log(same(d1, d2));  // expected true",
+    "bugLine": 2,
+    "bugExplanation": "=== compares object references, not time values. Compare a.getTime() === b.getTime().",
+    "hints": [
+      "Equal dates compare false.",
+      "Dates are objects.",
+      "Compare timestamps."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "a.toString === b",
+      "a.getTime() === b.getTime()",
+      "a == b"
+    ],
+    "correctAnswer": "a.getTime() === b.getTime()"
+  },
+  {
+    "title": "Callback loses this",
+    "description": "Registers a class method as a click handler.",
+    "language": "typescript",
+    "difficulty": "medium",
+    "code": "class Counter {\n  count = 0;\n  increment() {\n    this.count++;\n  }\n}\n\nconst c = new Counter();\nconst handler = c.increment;\nhandler();  // this is undefined here",
+    "bugLine": 3,
+    "bugExplanation": "Passing a method detaches it from the instance so this is lost. Define it as an arrow property: increment = () => { ... }.",
+    "hints": [
+      "TypeError reading count of undefined.",
+      "Methods aren't auto-bound.",
+      "Use an arrow function property."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "static increment() {",
+      "increment = () => {",
+      "private increment() {"
+    ],
+    "correctAnswer": "increment = () => {"
+  },
+  {
+    "title": "Reduce accumulator type",
+    "description": "Groups words by length into a record.",
+    "language": "typescript",
+    "difficulty": "medium",
+    "code": "const words = [\"a\", \"bb\", \"cc\"];\nconst grouped = words.reduce((acc, w) => {\n  (acc[w.length] ??= []).push(w);\n  return acc;\n}, []);\nconsole.log(grouped);  // expected { 1: [\"a\"], 2: [\"bb\",\"cc\"] }",
+    "bugLine": 3,
+    "bugExplanation": "The initial value is an array, but it's used as a keyed record. Use {} typed as Record<number, string[]>.",
+    "hints": [
+      "Keys are added to an array.",
+      "What is the initial accumulator?",
+      "Use an object."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "}, [0])",
+      "}, null)",
+      "}, {} as Record<number, string[]>)"
+    ],
+    "correctAnswer": "}, {} as Record<number, string[]>)"
+  },
+  {
+    "title": "Optional parameter ordering",
+    "description": "Greets a person with an optional title.",
+    "language": "typescript",
+    "difficulty": "medium",
+    "code": "function greet(title?: string, name: string): string {\n  return `Hello ${title ?? \"\"} ${name}`;\n}\n\nconsole.log(greet(\"Dr.\", \"Who\"));\n// Run the example above and compare the output with what is expected.",
+    "bugLine": 1,
+    "bugExplanation": "A required parameter cannot follow an optional one. Reorder: (name: string, title?: string).",
+    "hints": [
+      "A required parameter cannot follow an optional one.",
+      "Check parameter order.",
+      "Move optional last."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "greet(...name: string)",
+      "greet(name: string, title?: string)",
+      "greet(title: string, name?)"
+    ],
+    "correctAnswer": "greet(name: string, title?: string)"
+  },
+  {
+    "title": "Type guard returns wrong check",
+    "description": "Narrows unknown values to strings.",
+    "language": "typescript",
+    "difficulty": "hard",
+    "code": "function isString(x: unknown): x is string {\n  return typeof x === \"number\";\n}\n\nconst values: unknown[] = [\"a\", 1];\nconsole.log(values.filter(isString));  // expected [\"a\"]",
+    "bugLine": 2,
+    "bugExplanation": "The guard claims x is string but tests for number, so the narrowing is wrong. Use typeof x === 'string'.",
+    "hints": [
+      "filter returns numbers.",
+      "Compare the predicate to its claim.",
+      "Check for string."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "typeof x === \"string\"",
+      "typeof x == \"object\"",
+      "x instanceof String"
+    ],
+    "correctAnswer": "typeof x === \"string\""
+  },
+  {
+    "title": "forEach with async callbacks",
+    "description": "Saves each item and then logs completion.",
+    "language": "typescript",
+    "difficulty": "hard",
+    "code": "async function saveAll(items: number[]): Promise<void> {\n  items.forEach(async (i) => {\n    await save(i);\n  });\n  console.log(\"all saved\");\n}\ndeclare function save(n: number): Promise<void>;",
+    "bugLine": 2,
+    "bugExplanation": "forEach doesn't wait for promises so 'all saved' logs too early. Use await Promise.all(items.map(save)).",
+    "hints": [
+      "Logs before saves finish.",
+      "forEach ignores promises.",
+      "Use Promise.all."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "items.map(save);",
+      "items.forEach(save);",
+      "await Promise.all(items.map(save));"
+    ],
+    "correctAnswer": "await Promise.all(items.map(save));"
+  },
+  {
+    "title": "Missing case in exhaustive switch",
+    "description": "Describes each traffic light color.",
+    "language": "typescript",
+    "difficulty": "hard",
+    "code": "type Light = \"red\" | \"yellow\" | \"green\";\n\nfunction describe(l: Light): string {\n  switch (l) {\n    case \"red\": return \"stop\";\n    case \"green\": return \"go\";\n  }\n}\nconsole.log(describe(\"yellow\"));",
+    "bugLine": 6,
+    "bugExplanation": "The 'yellow' case is missing so the function returns undefined. Add case 'yellow': return 'slow'.",
+    "hints": [
+      "Yellow returns undefined.",
+      "Which union member is unhandled?",
+      "Add the case."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "default: return 1;",
+      "case \"blue\": return \"x\";",
+      "case \"yellow\": return \"slow\";"
+    ],
+    "correctAnswer": "case \"yellow\": return \"slow\";"
+  },
+  {
+    "title": "Pushing onto readonly array",
+    "description": "Returns a new list with an extra item.",
+    "language": "typescript",
+    "difficulty": "hard",
+    "code": "function addItem(list: readonly string[], item: string): string[] {\n  list.push(item);\n  return list as string[];\n}\n\nconst base = [\"a\"];\nconsole.log(addItem(base, \"b\"));",
+    "bugLine": 2,
+    "bugExplanation": "readonly arrays have no push, and casting would mutate the input. Return a new array: [...list, item].",
+    "hints": [
+      "Property 'push' does not exist.",
+      "The input is readonly.",
+      "Return a copy."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "list.concat(item);",
+      "list.unshift(item);",
+      "return [...list, item];"
+    ],
+    "correctAnswer": "return [...list, item];"
+  },
+  {
+    "title": "Reduce typed with wrong initial",
+    "description": "Sums an object's numeric values.",
+    "language": "typescript",
+    "difficulty": "hard",
+    "code": "const prices: Record<string, number> = { a: 1, b: 2 };\nconst total = Object.values(prices).reduce((sum, p) => sum + p, \"\");\nconsole.log(total);  // expected 3\n// Run the example above and compare the output with what is expected.\n// The expected behaviour is described in the task description.\n// Find the single line that causes the wrong result.",
+    "bugLine": 2,
+    "bugExplanation": "Starting from an empty string makes the reduction concatenate, giving '12'. Use 0 as the initial value.",
+    "hints": [
+      "Result is the string '12'.",
+      "Check the initial value type.",
+      "Start from a number."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "reduce((sum, p) => sum + p, 0)",
+      "reduce((sum, p) => p, 0)",
+      "reduce((sum, p) => sum + p)"
+    ],
+    "correctAnswer": "reduce((sum, p) => sum + p, 0)"
+  },
+  {
+    "title": "Unbound method passed as callback",
+    "description": "Calls a logger's method through an array map.",
+    "language": "typescript",
+    "difficulty": "hard",
+    "code": "class Logger {\n  prefix = \">>\";\n  format(s: string): string {\n    return this.prefix + s;\n  }\n}\nconst log = new Logger();\nconst out = [\"a\", \"b\"].map(log.format);\nconsole.log(out);",
+    "bugLine": 8,
+    "bugExplanation": "Passing log.format loses this, so this.prefix throws. Use arrow: map((s) => log.format(s)).",
+    "hints": [
+      "Cannot read properties of undefined.",
+      "Where did this go?",
+      "Wrap in an arrow function."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "map((s) => log.format(s))",
+      "map(log.format())",
+      "map(Logger.format)"
+    ],
+    "correctAnswer": "map((s) => log.format(s))"
+  },
+  {
+    "title": "Tuple swap returns duplicate",
+    "description": "Swaps the two values of a number pair.",
+    "language": "typescript",
+    "difficulty": "hard",
+    "code": "function swap(pair: [number, number]): [number, number] {\n  const [a, b] = pair;\n  return [a, a];\n}\n\nconsole.log(swap([1, 2]));  // expected [2, 1]\nconsole.log(swap([5, 9]));",
+    "bugLine": 3,
+    "bugExplanation": "The function returns a twice, so b is lost and the pair isn't swapped. Return [b, a].",
+    "hints": [
+      "Both values are identical.",
+      "Check what is returned.",
+      "Return the destructured values reversed."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "return [b, a];",
+      "return pair;",
+      "return [b, b];"
+    ],
+    "correctAnswer": "return [b, a];"
+  },
+  {
+    "title": "Frozen object is shallow",
+    "description": "Prevents modification of a config including nested data.",
+    "language": "typescript",
+    "difficulty": "hard",
+    "code": "const config = Object.freeze({ db: { host: \"a\" } });\nconfig.db.host = \"hacked\";\nconsole.log(config.db.host);  // expected \"a\"\n// Run the example above and compare the output with what is expected.\n// The expected behaviour is described in the task description.\n// Find the single line that causes the wrong result.",
+    "bugLine": 1,
+    "bugExplanation": "Object.freeze is shallow so nested objects remain mutable. Freeze nested objects too or use deep readonly typing.",
+    "hints": [
+      "The nested value still changes.",
+      "Freeze is shallow.",
+      "Freeze nested objects."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "Object.seal(config.db.host)",
+      "Object.freeze(config.db)",
+      "config.db = null"
+    ],
+    "correctAnswer": "Object.freeze(config.db)"
+  },
+  {
+    "title": "Promise.all with pushed promises",
+    "description": "Fetches all users in parallel and returns them in order.",
+    "language": "typescript",
+    "difficulty": "hard",
+    "code": "async function fetchAll(ids: number[]): Promise<string[]> {\n  const results: string[] = [];\n  for (const id of ids) {\n    results.push(await getUser(id));\n  }\n  return results;\n}\ndeclare function getUser(id: number): Promise<string>;",
+    "bugLine": 4,
+    "bugExplanation": "Awaiting inside the loop runs requests one at a time, not in parallel. Use Promise.all(ids.map(getUser)).",
+    "hints": [
+      "The requests are sequential.",
+      "await inside a loop blocks.",
+      "Run them together."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "await getUser;",
+      "return Promise.all(ids.map(getUser));",
+      "results.concat(getUser(id))"
+    ],
+    "correctAnswer": "return Promise.all(ids.map(getUser));"
+  },
+  {
+    "title": "Index signature accepts anything",
+    "description": "Looks up a country code and returns its name.",
+    "language": "typescript",
+    "difficulty": "hard",
+    "code": "const names: { [code: string]: string } = { US: \"United States\" };\n\nfunction nameOf(code: string): string {\n  return names[code].toUpperCase();\n}\n\nconsole.log(nameOf(\"FR\"));",
+    "bugLine": 4,
+    "bugExplanation": "Missing keys return undefined at runtime though the type says string, so toUpperCase throws. Handle undefined with ?? or ?.",
+    "hints": [
+      "Crash for unknown code.",
+      "Index signatures hide undefined.",
+      "Provide a fallback."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "(names[code] ?? \"unknown\").toUpperCase()",
+      "names[code]!.toUpperCase()",
+      "names.get(code)"
+    ],
+    "correctAnswer": "(names[code] ?? \"unknown\").toUpperCase()"
+  },
+  {
+    "title": "Wrong generic default in merge",
+    "description": "Merges two arrays of the same type.",
+    "language": "typescript",
+    "difficulty": "hard",
+    "code": "function merge<T>(a: T[], b: T[]): T[] {\n  const out: T[] = a;\n  for (const x of b) out.push(x);\n  return out;\n}\n\nconst first = [1, 2];\nmerge(first, [3]);\nconsole.log(first);  // expected [1, 2]",
+    "bugLine": 2,
+    "bugExplanation": "out references the same array as a, so pushing mutates the input. Copy it: const out = [...a].",
+    "hints": [
+      "The first array grows.",
+      "Assignment doesn't copy.",
+      "Copy before pushing."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "const out: T[] = b;",
+      "const out: T[] = a.length;",
+      "const out: T[] = [...a];"
+    ],
+    "correctAnswer": "const out: T[] = [...a];"
+  },
+  {
+    "title": "Number compared to string",
+    "description": "Finds an item by numeric id received from a URL.",
+    "language": "typescript",
+    "difficulty": "hard",
+    "code": "interface Item { id: number }\nconst items: Item[] = [{ id: 1 }, { id: 2 }];\n\nfunction findItem(idParam: string): Item | undefined {\n  return items.find((i) => i.id === idParam);\n}\nconsole.log(findItem(\"2\"));",
+    "bugLine": 5,
+    "bugExplanation": "A number is compared to a string with ===, so it never matches. Convert: i.id === Number(idParam).",
+    "hints": [
+      "No result is ever found.",
+      "Compare the types.",
+      "Convert the parameter."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "i.id === parseInt",
+      "i.id === Number(idParam)",
+      "i.id == idParam.length"
+    ],
+    "correctAnswer": "i.id === Number(idParam)"
+  },
+  {
+    "title": "Async map callback returns nothing",
+    "description": "Fetches several users in parallel and returns their names.",
+    "language": "typescript",
+    "difficulty": "hard",
+    "code": "declare function fetchUser(id: number): Promise<string>;\n\nasync function names(ids: number[]): Promise<string[]> {\n  return Promise.all(\n    ids.map(async (id) => {\n      fetchUser(id);\n    })\n  );\n}",
+    "bugLine": 6,
+    "bugExplanation": "The async callback doesn't return the promise, so every element resolves to undefined. Use return fetchUser(id).",
+    "hints": [
+      "The array holds undefined values.",
+      "What does the callback return?",
+      "Return the call."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "await fetchUser;",
+      "return fetchUser(id);",
+      "void fetchUser(id);"
+    ],
+    "correctAnswer": "return fetchUser(id);"
+  },
+  {
+    "title": "Array loop off-by-one",
+    "description": "Sums all elements of an int array.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Sum {\n    public static int sum(int[] arr) {\n        int total = 0;\n        for (int i = 0; i <= arr.length; i++) {\n            total += arr[i];\n        }\n        return total;\n    }\n}",
+    "bugLine": 4,
+    "bugExplanation": "When i == arr.length an ArrayIndexOutOfBoundsException is thrown. Use i < arr.length.",
+    "hints": [
+      "An exception is thrown at the end.",
+      "Check the loop condition.",
+      "Valid indexes end at length - 1."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "i < arr.length - 1",
+      "i < arr.length",
+      "i <= arr.length - 1 + 1"
+    ],
+    "correctAnswer": "i < arr.length"
+  },
+  {
+    "title": "String compared with ==",
+    "description": "Checks whether the user name is 'admin'.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Auth {\n    public static boolean isAdmin(String name) {\n        if (name == \"admin\") {\n            return true;\n        }\n        return false;\n    }\n}",
+    "bugLine": 3,
+    "bugExplanation": "== compares references, not contents, so strings built at runtime won't match. Use equals.",
+    "hints": [
+      "Equal strings sometimes fail.",
+      "== and equals differ.",
+      "Use the string method."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "\"admin\".equals(name)",
+      "name.compareTo(\"admin\")",
+      "name = \"admin\""
+    ],
+    "correctAnswer": "\"admin\".equals(name)"
+  },
+  {
+    "title": "Java int division in average",
+    "description": "Computes the average of two ints as a double.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Avg {\n    public static double average(int sum, int count) {\n        double avg = sum / count;\n        return avg;\n    }\n}\n// average(5, 2) should be 2.5",
+    "bugLine": 3,
+    "bugExplanation": "sum / count is integer division so 5/2 is 2 before widening to double. Cast one operand to double.",
+    "hints": [
+      "Result lacks decimals.",
+      "Both operands are int.",
+      "Cast before dividing."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "sum / (int) count",
+      "(double) sum / count",
+      "Math.floor(sum / count)"
+    ],
+    "correctAnswer": "(double) sum / count"
+  },
+  {
+    "title": "Missing return on a path",
+    "description": "Returns 'positive' or 'non-positive'.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Sign {\n    public static String sign(int n) {\n        if (n > 0) {\n            return \"positive\";\n        } else if (n <= 0) {\n            System.out.println(\"non-positive\");\n        }\n    }\n}",
+    "bugLine": 5,
+    "bugExplanation": "The else-if branch prints but never returns, so the method doesn't return a value on every path (compile error). Return the string.",
+    "hints": [
+      "Compile error about missing return.",
+      "What does the second branch do?",
+      "Return the text."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "return \"non-positive\";",
+      "n = 0;",
+      "return null;"
+    ],
+    "correctAnswer": "return \"non-positive\";"
+  },
+  {
+    "title": "Possible null dereference",
+    "description": "Returns the length of a string or 0 if it is null.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Len {\n    public static int safeLength(String s) {\n        return s.length();\n    }\n    public static void main(String[] args) {\n        System.out.println(safeLength(null));\n    }\n}",
+    "bugLine": 3,
+    "bugExplanation": "If s is null, s.length() throws NullPointerException. Check for null first.",
+    "hints": [
+      "NullPointerException.",
+      "What if s is null?",
+      "Add a guard."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "s != null ? s.length() : 0",
+      "s.length() ?: 0",
+      "s.isEmpty() ? 0 : 1"
+    ],
+    "correctAnswer": "s != null ? s.length() : 0"
+  },
+  {
+    "title": "Uninitialized local variable",
+    "description": "Finds the maximum value in an int array.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Max {\n    public static int max(int[] arr) {\n        int max;\n        for (int n : arr) {\n            if (n > max) max = n;\n        }\n        return max;\n    }\n}",
+    "bugLine": 3,
+    "bugExplanation": "A local variable must be initialized before use. Start with arr[0] or Integer.MIN_VALUE.",
+    "hints": [
+      "Variable might not have been initialized.",
+      "Look at the declaration.",
+      "Give it a starting value."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "int max = 0;",
+      "int max = null;",
+      "int max = Integer.MIN_VALUE;"
+    ],
+    "correctAnswer": "int max = Integer.MIN_VALUE;"
+  },
+  {
+    "title": "Assignment inside boolean check",
+    "description": "Prints a message when the flag is set.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Flag {\n    public static void main(String[] args) {\n        boolean active = false;\n        if (active = true) {\n            System.out.println(\"Active!\");\n        }\n    }\n}",
+    "bugLine": 4,
+    "bugExplanation": "active = true assigns true and evaluates to true, so the branch always runs. Use if (active).",
+    "hints": [
+      "Always prints.",
+      "One = assigns.",
+      "Test the variable."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "if (active)",
+      "if (active == null)",
+      "if (active != true)"
+    ],
+    "correctAnswer": "if (active)"
+  },
+  {
+    "title": "Java while loop never increments",
+    "description": "Sums numbers 0 to 9.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Loop {\n    public static void main(String[] args) {\n        int i = 0;\n        int sum = 0;\n        while (i < 10) {\n            sum += i;\n        }\n        System.out.println(sum);\n    }\n}",
+    "bugLine": 5,
+    "bugExplanation": "i never changes so the loop runs forever. Add i++ inside the loop.",
+    "hints": [
+      "Program never ends.",
+      "Does i change?",
+      "Increment i."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "i--;",
+      "break;",
+      "i++;"
+    ],
+    "correctAnswer": "i++;"
+  },
+  {
+    "title": "Char arithmetic yields int",
+    "description": "Shifts a letter to the next letter.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Shift {\n    public static void main(String[] args) {\n        char c = 'a';\n        String next = \"\" + c + 1;\n        System.out.println(next);  // expected b\n    }\n}",
+    "bugLine": 4,
+    "bugExplanation": "String concatenation appends the number 1 giving 'a1'. Compute (char)(c + 1) first.",
+    "hints": [
+      "Output is a1.",
+      "Concatenation, not addition.",
+      "Cast the sum to char."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "(int) c + 1",
+      "c++ + 1",
+      "(char) (c + 1)"
+    ],
+    "correctAnswer": "(char) (c + 1)"
+  },
+  {
+    "title": "Last index off by one",
+    "description": "Returns the last element of an int array.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Last {\n    public static int last(int[] a) {\n        return a[a.length];\n    }\n    public static void main(String[] args) {\n        System.out.println(last(new int[]{1, 2, 3}));\n    }\n}",
+    "bugLine": 3,
+    "bugExplanation": "a[a.length] is out of bounds. The last element is a[a.length - 1].",
+    "hints": [
+      "ArrayIndexOutOfBoundsException.",
+      "Arrays are zero-based.",
+      "Subtract one."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "a[1]",
+      "a[a.length - 1]",
+      "a[a.length + 1]"
+    ],
+    "correctAnswer": "a[a.length - 1]"
+  },
+  {
+    "title": "Factorial overflows int",
+    "description": "Computes 20! correctly.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Fact {\n    public static void main(String[] args) {\n        int result = 1;\n        for (int i = 2; i <= 20; i++) {\n            result *= i;\n        }\n        System.out.println(result);\n    }\n}",
+    "bugLine": 3,
+    "bugExplanation": "20! doesn't fit in an int and overflows. Use long.",
+    "hints": [
+      "Result is negative or wrong.",
+      "Check the variable's type.",
+      "20! is about 2.4e18."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "float result = 1;",
+      "int result = 1L;",
+      "long result = 1;"
+    ],
+    "correctAnswer": "long result = 1;"
+  },
+  {
+    "title": "toUpperCase result ignored",
+    "description": "Converts a name to upper case.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Upper {\n    public static void main(String[] args) {\n        String s = \"hello\";\n        s.toUpperCase();\n        System.out.println(s);  // expected HELLO\n    }\n}",
+    "bugLine": 4,
+    "bugExplanation": "Strings are immutable; toUpperCase returns a new string that is discarded. Assign it: s = s.toUpperCase().",
+    "hints": [
+      "The output is unchanged.",
+      "The return value is dropped.",
+      "Assign the result."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "s = s.toUpperCase();",
+      "s.toUpperCase(s);",
+      "s.upper();"
+    ],
+    "correctAnswer": "s = s.toUpperCase();"
+  },
+  {
+    "title": "Wrong comparison finding minimum",
+    "description": "Finds the smallest value in an array.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Min {\n    public static int min(int[] a) {\n        int min = a[0];\n        for (int n : a) {\n            if (n > min) min = n;\n        }\n        return min;\n    }\n}",
+    "bugLine": 5,
+    "bugExplanation": "Using > tracks the maximum. For the minimum use n < min.",
+    "hints": [
+      "It returns the maximum.",
+      "Check the comparison.",
+      "Use less-than."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "n < min",
+      "n >= min",
+      "n == min"
+    ],
+    "correctAnswer": "n < min"
+  },
+  {
+    "title": "Reverse loop skips first char",
+    "description": "Reverses a string.",
+    "language": "java",
+    "difficulty": "easy",
+    "code": "public class Rev {\n    public static String reverse(String s) {\n        StringBuilder sb = new StringBuilder();\n        for (int i = s.length() - 1; i > 0; i--) {\n            sb.append(s.charAt(i));\n        }\n        return sb.toString();\n    }\n}",
+    "bugLine": 4,
+    "bugExplanation": "i > 0 stops before index 0, dropping the first character. Use i >= 0.",
+    "hints": [
+      "The first letter is missing.",
+      "Check the loop bound.",
+      "Include index 0."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "i != 1",
+      "i > -2",
+      "i >= 0"
+    ],
+    "correctAnswer": "i >= 0"
+  },
+  {
+    "title": "Missing break in day switch",
+    "description": "Returns the day type for a day number.",
+    "language": "java",
+    "difficulty": "medium",
+    "code": "public class Day {\n    public static String type(int d) {\n        String r = \"weekday\";\n        switch (d) {\n            case 6:\n                r = \"saturday\";\n            case 7:\n                r = \"sunday\";\n                break;\n        }\n        return r;\n    }\n}",
+    "bugLine": 6,
+    "bugExplanation": "Without break, case 6 falls through into case 7 and ends as 'sunday'. Add break after the case 6 assignment.",
+    "hints": [
+      "Saturday reports as Sunday.",
+      "Switch cases fall through.",
+      "Add break."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "continue;",
+      "break;",
+      "return;"
+    ],
+    "correctAnswer": "break;"
+  },
+  {
+    "title": "Concurrent modification",
+    "description": "Removes all negative numbers from a list.",
+    "language": "java",
+    "difficulty": "medium",
+    "code": "import java.util.*;\n\npublic class Neg {\n    public static void main(String[] args) {\n        List<Integer> list = new ArrayList<>(List.of(1, -2, 3, -4));\n        for (Integer n : list) {\n            if (n < 0) list.remove(n);\n        }\n        System.out.println(list);\n    }\n}",
+    "bugLine": 6,
+    "bugExplanation": "Removing while iterating with for-each throws ConcurrentModificationException. Use removeIf or an Iterator.",
+    "hints": [
+      "ConcurrentModificationException.",
+      "Don't modify during for-each.",
+      "Use removeIf."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "list.removeAll(n);",
+      "list.removeIf(n -> n < 0);",
+      "for (int n : list.clone())"
+    ],
+    "correctAnswer": "list.removeIf(n -> n < 0);"
+  },
+  {
+    "title": "Integer cache comparison",
+    "description": "Checks whether two boxed numbers are equal.",
+    "language": "java",
+    "difficulty": "medium",
+    "code": "public class Cmp {\n    public static void main(String[] args) {\n        Integer a = 1000;\n        Integer b = 1000;\n        if (a == b) {\n            System.out.println(\"equal\");\n        } else {\n            System.out.println(\"different\");\n        }\n    }\n}",
+    "bugLine": 5,
+    "bugExplanation": "== on Integer objects compares references; values over 127 aren't cached. Use a.equals(b).",
+    "hints": [
+      "1000 and 1000 are not equal.",
+      "Boxed types are objects.",
+      "Use equals."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "a.equals(b)",
+      "a.compare(b)",
+      "a = b"
+    ],
+    "correctAnswer": "a.equals(b)"
+  },
+  {
+    "title": "Unboxing null from map",
+    "description": "Reads a count from a map, defaulting to zero.",
+    "language": "java",
+    "difficulty": "medium",
+    "code": "import java.util.*;\n\npublic class Cnt {\n    public static void main(String[] args) {\n        Map<String, Integer> m = new HashMap<>();\n        int c = m.get(\"x\");\n        System.out.println(c);\n    }\n}",
+    "bugLine": 6,
+    "bugExplanation": "get returns null for a missing key and unboxing null throws NullPointerException. Use getOrDefault.",
+    "hints": [
+      "NullPointerException.",
+      "The key doesn't exist.",
+      "Provide a default."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "m.contains(\"x\")",
+      "m.getOrDefault(\"x\", 0)",
+      "m.get(\"x\") + \"\""
+    ],
+    "correctAnswer": "m.getOrDefault(\"x\", 0)"
+  },
+  {
+    "title": "equals overload instead of override",
+    "description": "Compares two Person objects by name.",
+    "language": "java",
+    "difficulty": "medium",
+    "code": "public class Person {\n    String name;\n    Person(String n) { name = n; }\n\n    public boolean equals(Person other) {\n        return name.equals(other.name);\n    }\n    public static void main(String[] a) {\n        Object p = new Person(\"A\");\n        System.out.println(p.equals(new Person(\"A\")));\n    }\n}",
+    "bugLine": 5,
+    "bugExplanation": "equals(Person) overloads rather than overrides Object.equals(Object), so Object-typed calls use identity. Change the parameter to Object.",
+    "hints": [
+      "Equal people compare false.",
+      "Signature must match.",
+      "Parameter must be Object."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "equals(Object other)",
+      "equals(String other)",
+      "equals()"
+    ],
+    "correctAnswer": "equals(Object other)"
+  },
+  {
+    "title": "Static field shared by instances",
+    "description": "Gives each Item its own id counter.",
+    "language": "java",
+    "difficulty": "medium",
+    "code": "public class Item {\n    static int id = 0;\n    String name;\n\n    Item(String name) {\n        this.name = name;\n        id++;\n    }\n    int getId() { return id; }\n}",
+    "bugLine": 2,
+    "bugExplanation": "id is static so all instances share it and getId returns the latest value. Use an instance field assigned from a static counter.",
+    "hints": [
+      "All items share the same id.",
+      "What does static mean?",
+      "Separate counter from id."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "volatile int id;",
+      "int id = 0;",
+      "private final int id = ++counter;"
+    ],
+    "correctAnswer": "private final int id = ++counter;"
+  },
+  {
+    "title": "Arrays.asList on int array",
+    "description": "Converts an int array to a List and gets its size.",
+    "language": "java",
+    "difficulty": "medium",
+    "code": "import java.util.*;\n\npublic class AsL {\n    public static void main(String[] args) {\n        int[] arr = {1, 2, 3};\n        List<Integer> list = Arrays.asList(arr);\n        System.out.println(list.size());  // expected 3\n    }\n}",
+    "bugLine": 6,
+    "bugExplanation": "Arrays.asList(int[]) creates a List<int[]> with one element. Use Integer[] (or boxed stream).",
+    "hints": [
+      "Size prints 1 / type error.",
+      "Primitive arrays aren't boxed.",
+      "Use Integer[]."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "Integer[] arr = {1, 2, 3};",
+      "int arr = {1, 2, 3};",
+      "long[] arr = {1, 2, 3};"
+    ],
+    "correctAnswer": "Integer[] arr = {1, 2, 3};"
+  },
+  {
+    "title": "Descending sort comparator reversed",
+    "description": "Sorts people by age descending.",
+    "language": "java",
+    "difficulty": "medium",
+    "code": "import java.util.*;\n\npublic class Sort {\n    record P(String n, int age) {}\n    public static void main(String[] args) {\n        List<P> ps = new ArrayList<>(List.of(new P(\"a\", 20), new P(\"b\", 30)));\n        ps.sort((x, y) -> x.age() - y.age());\n        System.out.println(ps);\n    }\n}",
+    "bugLine": 7,
+    "bugExplanation": "x.age() - y.age() sorts ascending. For descending use y.age() - x.age().",
+    "hints": [
+      "The youngest comes first.",
+      "Check the subtraction order.",
+      "Swap x and y."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "x.age() > y.age()",
+      "x.age() + y.age()",
+      "y.age() - x.age()"
+    ],
+    "correctAnswer": "y.age() - x.age()"
+  },
+  {
+    "title": "Array aliasing instead of copy",
+    "description": "Makes a copy of an array and modifies it.",
+    "language": "java",
+    "difficulty": "medium",
+    "code": "import java.util.*;\n\npublic class Copy {\n    public static void main(String[] args) {\n        int[] original = {1, 2, 3};\n        int[] copy = original;\n        copy[0] = 99;\n        System.out.println(original[0]);  // expected 1\n    }\n}",
+    "bugLine": 6,
+    "bugExplanation": "Assigning an array copies the reference, not the data. Use Arrays.copyOf.",
+    "hints": [
+      "The original changes too.",
+      "Arrays are references.",
+      "Copy the elements."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "Arrays.copyOf(original, original.length)",
+      "original.clone",
+      "original.length()"
+    ],
+    "correctAnswer": "Arrays.copyOf(original, original.length)"
+  },
+  {
+    "title": "Catch order unreachable",
+    "description": "Handles a file error and a general error.",
+    "language": "java",
+    "difficulty": "medium",
+    "code": "import java.io.*;\n\npublic class Catch {\n    public static void main(String[] args) {\n        try {\n            new FileReader(\"x.txt\").close();\n        } catch (Exception e) {\n            System.out.println(\"general\");\n        } catch (IOException e) {\n            System.out.println(\"io\");\n        }\n    }\n}",
+    "bugLine": 7,
+    "bugExplanation": "Catching Exception first makes the IOException block unreachable (compile error). Put the more specific catch first.",
+    "hints": [
+      "Compile error: already caught.",
+      "Order of catches matters.",
+      "Specific before general."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "catch (Throwable e) last",
+      "catch (IOException e) first",
+      "finally {}"
+    ],
+    "correctAnswer": "catch (IOException e) first"
+  },
+  {
+    "title": "Percentage integer math",
+    "description": "Computes the percentage of completed tasks.",
+    "language": "java",
+    "difficulty": "medium",
+    "code": "public class Pct {\n    public static void main(String[] args) {\n        int done = 3, total = 4;\n        double pct = (done / total) * 100;\n        System.out.println(pct);  // expected 75.0\n    }\n}",
+    "bugLine": 4,
+    "bugExplanation": "done / total is integer division giving 0. Multiply first by 100.0: (done * 100.0) / total.",
+    "hints": [
+      "Prints 0.0.",
+      "Integer division.",
+      "Use floating point math."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "(done / total) * 100.0f",
+      "done % total * 100",
+      "(done * 100.0) / total"
+    ],
+    "correctAnswer": "(done * 100.0) / total"
+  },
+  {
+    "title": "Wrong dimension in 2D loop",
+    "description": "Prints every cell of a matrix.",
+    "language": "java",
+    "difficulty": "medium",
+    "code": "public class Mat {\n    public static void main(String[] args) {\n        int[][] m = new int[2][5];\n        for (int r = 0; r < m[0].length; r++) {\n            for (int c = 0; c < m[0].length; c++) {\n                System.out.print(m[r][c]);\n            }\n        }\n    }\n}",
+    "bugLine": 4,
+    "bugExplanation": "The row loop uses the column count (5) so m[r] goes out of bounds. Use r < m.length.",
+    "hints": [
+      "Index out of bounds on rows.",
+      "Rows vs columns.",
+      "Use m.length for rows."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "r < m.length",
+      "r <= m.length",
+      "r < m[1]"
+    ],
+    "correctAnswer": "r < m.length"
+  },
+  {
+    "title": "Constructor shadows field",
+    "description": "Stores a name in a Person.",
+    "language": "java",
+    "difficulty": "medium",
+    "code": "public class Person {\n    private String name;\n\n    public Person(String name) {\n        name = name;\n    }\n\n    public String getName() { return name; }\n}",
+    "bugLine": 5,
+    "bugExplanation": "name = name assigns the parameter to itself, so the field stays null. Use this.name = name.",
+    "hints": [
+      "getName returns null.",
+      "Parameter shadows field.",
+      "Qualify with this."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "name = this;",
+      "this.name == name;",
+      "this.name = name;"
+    ],
+    "correctAnswer": "this.name = name;"
+  },
+  {
+    "title": "Missing volatile in double-checked locking",
+    "description": "Creates a thread-safe lazy singleton.",
+    "language": "java",
+    "difficulty": "hard",
+    "code": "public class Single {\n    private static Single instance;\n\n    public static Single get() {\n        if (instance == null) {\n            synchronized (Single.class) {\n                if (instance == null) instance = new Single();\n            }\n        }\n        return instance;\n    }\n}",
+    "bugLine": 2,
+    "bugExplanation": "Without volatile, other threads may see a partially constructed object because of reordering. Declare the field volatile.",
+    "hints": [
+      "Rare race condition.",
+      "Visibility across threads.",
+      "Add a keyword to the field."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "private static transient Single instance;",
+      "private static volatile Single instance;",
+      "private static final Single instance;"
+    ],
+    "correctAnswer": "private static volatile Single instance;"
+  },
+  {
+    "title": "Non-atomic counter",
+    "description": "Counts events from many threads.",
+    "language": "java",
+    "difficulty": "hard",
+    "code": "public class Counter {\n    private int count = 0;\n\n    public void increment() {\n        count++;\n    }\n\n    public int get() {\n        return count;\n    }\n}",
+    "bugLine": 5,
+    "bugExplanation": "count++ is read-modify-write and isn't atomic, so concurrent increments are lost. Use AtomicInteger or synchronized.",
+    "hints": [
+      "Final count is lower than expected.",
+      "Is count++ atomic?",
+      "Use an atomic type."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "count += 0;",
+      "count = count;",
+      "count.incrementAndGet();"
+    ],
+    "correctAnswer": "count.incrementAndGet();"
+  },
+  {
+    "title": "Binary search midpoint overflow",
+    "description": "Binary search on a very large array.",
+    "language": "java",
+    "difficulty": "hard",
+    "code": "public class BS {\n    static int search(int[] a, int t) {\n        int lo = 0, hi = a.length - 1;\n        while (lo <= hi) {\n            int mid = (lo + hi) / 2;\n            if (a[mid] == t) return mid;\n            if (a[mid] < t) lo = mid + 1; else hi = mid - 1;\n        }\n        return -1;\n    }\n}",
+    "bugLine": 5,
+    "bugExplanation": "lo + hi can overflow int for huge arrays producing a negative index. Use lo + (hi - lo) / 2.",
+    "hints": [
+      "Rare negative index.",
+      "Add of two large ints.",
+      "Use a safe midpoint formula."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "(lo + hi) >> 2",
+      "lo / 2 + hi",
+      "lo + (hi - lo) / 2"
+    ],
+    "correctAnswer": "lo + (hi - lo) / 2"
+  },
+  {
+    "title": "Multiplication overflows before widening",
+    "description": "Computes the product of two ints in a long.",
+    "language": "java",
+    "difficulty": "hard",
+    "code": "public class Mul {\n    public static void main(String[] args) {\n        int a = 100000, b = 100000;\n        long product = a * b;\n        System.out.println(product);  // expected 10000000000\n    }\n}",
+    "bugLine": 4,
+    "bugExplanation": "a * b is computed in int and overflows before being widened. Cast one operand: (long) a * b.",
+    "hints": [
+      "Result is 1410065408.",
+      "Where does the widening happen?",
+      "Cast before multiplying."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "a * b * 1L - 1",
+      "(long) (a * b)",
+      "(long) a * b"
+    ],
+    "correctAnswer": "(long) a * b"
+  },
+  {
+    "title": "Optional get without check",
+    "description": "Returns the first even number or -1.",
+    "language": "java",
+    "difficulty": "hard",
+    "code": "import java.util.*;\n\npublic class Opt {\n    public static void main(String[] args) {\n        List<Integer> nums = List.of(1, 3, 5);\n        Optional<Integer> first = nums.stream().filter(n -> n % 2 == 0).findFirst();\n        System.out.println(first.get());\n    }\n}",
+    "bugLine": 7,
+    "bugExplanation": "get() throws NoSuchElementException when empty. Use orElse(-1).",
+    "hints": [
+      "NoSuchElementException.",
+      "The Optional may be empty.",
+      "Supply a default."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "first.orElseGet()",
+      "first.orElse(-1)",
+      "first.isPresent()"
+    ],
+    "correctAnswer": "first.orElse(-1)"
+  },
+  {
+    "title": "Remove during iteration with wrong Iterator use",
+    "description": "Removes empty strings from a list using an Iterator.",
+    "language": "java",
+    "difficulty": "hard",
+    "code": "import java.util.*;\n\npublic class It {\n    public static void main(String[] args) {\n        List<String> l = new ArrayList<>(List.of(\"a\", \"\", \"b\"));\n        Iterator<String> it = l.iterator();\n        while (it.hasNext()) {\n            if (it.next().isEmpty()) l.remove(\"\");\n        }\n        System.out.println(l);\n    }\n}",
+    "bugLine": 8,
+    "bugExplanation": "Calling list.remove during iteration invalidates the iterator. Use it.remove().",
+    "hints": [
+      "ConcurrentModificationException.",
+      "Use the iterator's own method.",
+      "Call remove on the iterator."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "it.remove();",
+      "it.next();",
+      "l.clear();"
+    ],
+    "correctAnswer": "it.remove();"
+  },
+  {
+    "title": "split with regex dot",
+    "description": "Splits a version string on dots.",
+    "language": "java",
+    "difficulty": "hard",
+    "code": "public class Split {\n    public static void main(String[] args) {\n        String v = \"1.2.3\";\n        String[] parts = v.split(\".\");\n        System.out.println(parts.length);  // expected 3\n    }\n}",
+    "bugLine": 4,
+    "bugExplanation": "split takes a regex where . matches any character, producing an empty array. Escape it: split(\"\\\\.\").",
+    "hints": [
+      "Length is 0.",
+      "split uses a regex.",
+      "Escape the dot."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "v.split(\",\")",
+      "v.split(\".*\")",
+      "v.split(\"\\\\.\")"
+    ],
+    "correctAnswer": "v.split(\"\\\\.\")"
+  },
+  {
+    "title": "Memo check inverted",
+    "description": "Computes Fibonacci with memoization.",
+    "language": "java",
+    "difficulty": "hard",
+    "code": "import java.util.*;\n\npublic class Fib {\n    static Map<Integer, Long> memo = new HashMap<>();\n    static long fib(int n) {\n        if (n < 2) return n;\n        if (!memo.containsKey(n)) return memo.get(n);\n        long v = fib(n - 1) + fib(n - 2);\n        memo.put(n, v);\n        return v;\n    }\n}",
+    "bugLine": 7,
+    "bugExplanation": "The check is inverted: when the key is missing it calls get (null -> NPE). Remove the negation.",
+    "hints": [
+      "NullPointerException.",
+      "Check the condition.",
+      "Remove !."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "if (memo.containsKey(n))",
+      "if (memo.isEmpty())",
+      "if (memo.get(n) == 0)"
+    ],
+    "correctAnswer": "if (memo.containsKey(n))"
+  },
+  {
+    "title": "Floating point equality",
+    "description": "Checks whether two sums are equal.",
+    "language": "java",
+    "difficulty": "hard",
+    "code": "public class Fl {\n    public static void main(String[] args) {\n        double a = 0.1 + 0.2;\n        double b = 0.3;\n        if (a == b) {\n            System.out.println(\"equal\");\n        }\n    }\n}",
+    "bugLine": 5,
+    "bugExplanation": "0.1 + 0.2 is not exactly 0.3 in binary floating point. Compare within a tolerance.",
+    "hints": [
+      "The message never prints.",
+      "Floats are approximate.",
+      "Use epsilon comparison."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "(int) a == (int) b",
+      "Math.abs(a - b) < 1e-9",
+      "a.equals(b)"
+    ],
+    "correctAnswer": "Math.abs(a - b) < 1e-9"
+  },
+  {
+    "title": "Math.abs of MIN_VALUE",
+    "description": "Maps a hash code to a bucket index.",
+    "language": "java",
+    "difficulty": "hard",
+    "code": "public class Bucket {\n    static int index(Object key, int buckets) {\n        int h = key.hashCode();\n        return Math.abs(h) % buckets;\n    }\n    public static void main(String[] args) {\n        System.out.println(index(\"polygenelubricants\", 10));\n    }\n}",
+    "bugLine": 4,
+    "bugExplanation": "Math.abs(Integer.MIN_VALUE) is still negative, so the index may be negative. Use Math.floorMod(h, buckets).",
+    "hints": [
+      "Negative index for some keys.",
+      "abs has an edge case.",
+      "Use floorMod."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "Math.abs(h % buckets) + 1",
+      "Math.floorMod(h, buckets)",
+      "h % buckets"
+    ],
+    "correctAnswer": "Math.floorMod(h, buckets)"
+  },
+  {
+    "title": "wait in if instead of loop",
+    "description": "A consumer waits until a queue has an item.",
+    "language": "java",
+    "difficulty": "hard",
+    "code": "import java.util.*;\n\npublic class Q {\n    private final Queue<Integer> q = new LinkedList<>();\n    public synchronized int take() throws InterruptedException {\n        if (q.isEmpty()) {\n            wait();\n        }\n        return q.poll();\n    }\n}",
+    "bugLine": 6,
+    "bugExplanation": "After wait returns the condition might still be false (spurious wakeup or another consumer). Use while.",
+    "hints": [
+      "Sometimes returns null/NPE.",
+      "Recheck after waking.",
+      "Use a loop."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "if (!q.isEmpty())",
+      "while (q.isEmpty())",
+      "if (q.size() < 0)"
+    ],
+    "correctAnswer": "while (q.isEmpty())"
+  },
+  {
+    "title": "Interval sort uses end",
+    "description": "Merges overlapping intervals after sorting by start.",
+    "language": "java",
+    "difficulty": "hard",
+    "code": "import java.util.*;\n\npublic class Merge {\n    static void sortIntervals(int[][] iv) {\n        Arrays.sort(iv, (a, b) -> a[1] - b[1]);\n    }\n}\n// Merging relies on intervals being ordered by start time",
+    "bugLine": 5,
+    "bugExplanation": "Merging requires sorting by start index a[0], not end a[1].",
+    "hints": [
+      "Merge results are wrong.",
+      "Which field to sort?",
+      "Sort by start."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "a.length - b.length",
+      "b[1] - a[1]",
+      "a[0] - b[0]"
+    ],
+    "correctAnswer": "a[0] - b[0]"
+  },
+  {
+    "title": "BFS using stack",
+    "description": "Does a breadth-first traversal.",
+    "language": "java",
+    "difficulty": "hard",
+    "code": "import java.util.*;\n\npublic class Bfs {\n    static void bfs(Map<Integer, List<Integer>> g, int s) {\n        Deque<Integer> d = new ArrayDeque<>();\n        d.add(s);\n        while (!d.isEmpty()) {\n            int u = d.pollLast();\n            for (int v : g.getOrDefault(u, List.of())) d.add(v);\n        }\n    }\n}",
+    "bugLine": 8,
+    "bugExplanation": "add appends to the tail and pollLast takes from the tail, so this is LIFO (DFS order). For BFS take from the head with poll().",
+    "hints": [
+      "Traversal order is depth first.",
+      "push + pop = stack.",
+      "Use FIFO operations."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "int u = d.peekLast();",
+      "int u = d.removeLast();",
+      "int u = d.poll();"
+    ],
+    "correctAnswer": "int u = d.poll();"
+  },
+  {
+    "title": "Vector loop off-by-one",
+    "description": "Prints all elements of a vector.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> v = {1, 2, 3};\n    for (size_t i = 0; i <= v.size(); i++) {\n        std::cout << v[i] << \"\\n\";\n    }\n    return 0;\n}",
+    "bugLine": 6,
+    "bugExplanation": "When i == v.size() the access is out of bounds (undefined behavior). Use i < v.size().",
+    "hints": [
+      "Garbage printed at the end.",
+      "Check the loop condition.",
+      "Valid indexes end at size - 1."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "i <= v.size() - 2",
+      "i < v.size() - 1",
+      "i < v.size()"
+    ],
+    "correctAnswer": "i < v.size()"
+  },
+  {
+    "title": "Uninitialized accumulator",
+    "description": "Sums the numbers in an array.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <iostream>\n\nint main() {\n    int a[] = {1, 2, 3, 4};\n    int sum;\n    for (int x : a) {\n        sum += x;\n    }\n    std::cout << sum << \"\\n\";\n    return 0;\n}",
+    "bugLine": 5,
+    "bugExplanation": "sum is uninitialized so its value is indeterminate. Initialize it to 0.",
+    "hints": [
+      "Random output.",
+      "Look at the declaration of sum.",
+      "Give it a starting value."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "int sum = NULL;",
+      "int sum = 1;",
+      "int sum = 0;"
+    ],
+    "correctAnswer": "int sum = 0;"
+  },
+  {
+    "title": "Assignment in if condition",
+    "description": "Prints when the user is an adult.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <iostream>\n\nint main() {\n    int age = 15;\n    if (age = 18) {\n        std::cout << \"adult\\n\";\n    }\n    return 0;\n}",
+    "bugLine": 5,
+    "bugExplanation": "age = 18 assigns and evaluates to true, so the branch always runs. Use age >= 18.",
+    "hints": [
+      "Always prints 'adult'.",
+      "Look at the operator.",
+      "Compare instead of assign."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "age == 15",
+      "age != 18",
+      "age >= 18"
+    ],
+    "correctAnswer": "age >= 18"
+  },
+  {
+    "title": "Missing return in non-void function",
+    "description": "Returns the larger of two ints.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <iostream>\n\nint maxOf(int a, int b) {\n    if (a > b) {\n        return a;\n    } else if (b >= a) {\n        std::cout << \"b is larger\\n\";\n    }\n}\n\nint main() { std::cout << maxOf(1, 2); }",
+    "bugLine": 6,
+    "bugExplanation": "The else-if branch doesn't return a value, which is undefined behavior for a non-void function. Return b.",
+    "hints": [
+      "Undefined return value.",
+      "What does the second branch do?",
+      "Return b."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "return;",
+      "return 0;",
+      "return b;"
+    ],
+    "correctAnswer": "return b;"
+  },
+  {
+    "title": "Integer division average",
+    "description": "Computes the average of two ints as a double.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <iostream>\n\nint main() {\n    int sum = 5, count = 2;\n    double avg = sum / count;\n    std::cout << avg << \"\\n\";  // expected 2.5\n    return 0;\n}",
+    "bugLine": 5,
+    "bugExplanation": "sum / count performs integer division yielding 2. Cast one operand to double.",
+    "hints": [
+      "Prints 2.",
+      "Both operands are int.",
+      "Cast before dividing."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "static_cast<double>(sum) / count",
+      "sum % count",
+      "sum / (int) count"
+    ],
+    "correctAnswer": "static_cast<double>(sum) / count"
+  },
+  {
+    "title": "Loop never increments",
+    "description": "Prints numbers 0 to 4.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <iostream>\n\nint main() {\n    int i = 0;\n    while (i < 5) {\n        std::cout << i << \" \";\n    }\n    return 0;\n}",
+    "bugLine": 5,
+    "bugExplanation": "i is never incremented so the loop is infinite. Add i++.",
+    "hints": [
+      "The program never stops.",
+      "Does i change?",
+      "Increment i."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "i--;",
+      "i++;",
+      "break;"
+    ],
+    "correctAnswer": "i++;"
+  },
+  {
+    "title": "Vector index at size",
+    "description": "Returns the last element of a vector.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <vector>\n\nint last(const std::vector<int>& v) {\n    return v[v.size()];\n}\n\nint main() {\n    std::vector<int> v = {1, 2, 3};\n    return last(v);\n}",
+    "bugLine": 4,
+    "bugExplanation": "v[v.size()] is one past the end. The last element is v[v.size() - 1] (or v.back()).",
+    "hints": [
+      "Out-of-bounds access.",
+      "Zero-based indexes.",
+      "Use size - 1."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "v[v.size() - 1]",
+      "v[1]",
+      "v[v.size() + 1]"
+    ],
+    "correctAnswer": "v[v.size() - 1]"
+  },
+  {
+    "title": "Wrong logical operator for range",
+    "description": "Checks that a percentage is between 0 and 100.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <iostream>\n\nbool valid(int x) {\n    return x >= 0 || x <= 100;\n}\n\nint main() {\n    std::cout << valid(150) << \"\\n\";  // expected 0\n    return 0;\n}",
+    "bugLine": 4,
+    "bugExplanation": "With || nearly every number passes. Both bounds must hold, so use &&.",
+    "hints": [
+      "150 is considered valid.",
+      "Which operator requires both?",
+      "Use AND."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "x >= 0 && x <= 100",
+      "x > 0 || x < 100",
+      "x >= 0 && x >= 100"
+    ],
+    "correctAnswer": "x >= 0 && x <= 100"
+  },
+  {
+    "title": "sizeof on pointer parameter",
+    "description": "Computes the number of elements in an array inside a function.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <iostream>\n\nint count(int arr[]) {\n    return sizeof(arr) / sizeof(arr[0]);\n}\n\nint main() {\n    int a[] = {1, 2, 3, 4, 5};\n    std::cout << count(a) << \"\\n\";  // expected 5\n}",
+    "bugLine": 4,
+    "bugExplanation": "An array parameter decays to a pointer so sizeof(arr) is the pointer size. Pass the length as a parameter.",
+    "hints": [
+      "Prints 2 (or wrong).",
+      "Arrays decay to pointers.",
+      "Pass the size explicitly."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "int count(int arr[], int n) { return n; }",
+      "sizeof(*arr)",
+      "sizeof(arr[0]) * 2"
+    ],
+    "correctAnswer": "int count(int arr[], int n) { return n; }"
+  },
+  {
+    "title": "Stray semicolon after loop",
+    "description": "Prints 'hi' three times.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <iostream>\n\nint main() {\n    for (int i = 0; i < 3; i++);\n    {\n        std::cout << \"hi\\n\";\n    }\n    return 0;\n}",
+    "bugLine": 4,
+    "bugExplanation": "The semicolon ends the for statement so the block runs only once after the loop. Remove it.",
+    "hints": [
+      "Prints only once.",
+      "Look at the end of the for line.",
+      "Remove the semicolon."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "for (int i = 0; i < 3; i++);;",
+      "for (int i = 0; i < 3; i++)",
+      "for (int i = 0; i < 3; i++) {}"
+    ],
+    "correctAnswer": "for (int i = 0; i < 3; i++)"
+  },
+  {
+    "title": "Pass by value does not modify",
+    "description": "Increments the caller's variable.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <iostream>\n\nvoid inc(int x) {\n    x++;\n}\n\nint main() {\n    int n = 5;\n    inc(n);\n    std::cout << n << \"\\n\";  // expected 6\n}",
+    "bugLine": 3,
+    "bugExplanation": "The parameter is a copy so the caller's n is unchanged. Take a reference: int& x.",
+    "hints": [
+      "n stays 5.",
+      "How are arguments passed?",
+      "Use a reference."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "void inc(int& x)",
+      "int inc(int x)",
+      "void inc(int x, int y)"
+    ],
+    "correctAnswer": "void inc(int& x)"
+  },
+  {
+    "title": "Wrong comparison for minimum",
+    "description": "Finds the smallest element of a vector.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <vector>\n\nint minOf(const std::vector<int>& v) {\n    int mn = v[0];\n    for (int x : v) {\n        if (x > mn) mn = x;\n    }\n    return mn;\n}",
+    "bugLine": 6,
+    "bugExplanation": "Using > selects the maximum. For the minimum use x < mn.",
+    "hints": [
+      "Returns the largest value.",
+      "Check the comparison.",
+      "Use less-than."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "x < mn",
+      "x >= mn",
+      "x == mn"
+    ],
+    "correctAnswer": "x < mn"
+  },
+  {
+    "title": "Adding char* and char",
+    "description": "Builds a greeting by appending '!'.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <iostream>\n#include <string>\n\nint main() {\n    std::string base = \"Hello\";\n    const char* msg = \"Hello\" + '!';\n    std::cout << msg << \"\\n\";\n    return 0;\n}",
+    "bugLine": 6,
+    "bugExplanation": "Adding a char to a string literal does pointer arithmetic instead of concatenation. Use std::string and +.",
+    "hints": [
+      "Garbage output.",
+      "Pointer arithmetic.",
+      "Use std::string."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "char msg = base + \"!\";",
+      "const char* msg = base + 1;",
+      "std::string msg = base + \"!\";"
+    ],
+    "correctAnswer": "std::string msg = base + \"!\";"
+  },
+  {
+    "title": "int overflow in factorial",
+    "description": "Computes 15! using an integer.",
+    "language": "cpp",
+    "difficulty": "easy",
+    "code": "#include <iostream>\n\nint main() {\n    int result = 1;\n    for (int i = 2; i <= 15; i++) {\n        result *= i;\n    }\n    std::cout << result << \"\\n\";\n    return 0;\n}",
+    "bugLine": 4,
+    "bugExplanation": "15! exceeds the range of a 32-bit int and overflows. Use long long.",
+    "hints": [
+      "Result is wrong or negative.",
+      "Check the type's range.",
+      "Use a wider type."
+    ],
+    "xp": 50,
+    "answerOptions": [
+      "unsigned char result = 1;",
+      "short result = 1;",
+      "long long result = 1;"
+    ],
+    "correctAnswer": "long long result = 1;"
+  },
+  {
+    "title": "Null pointer dereference",
+    "description": "Prints the value of the first node, if any.",
+    "language": "cpp",
+    "difficulty": "medium",
+    "code": "#include <iostream>\n\nstruct Node { int val; Node* next; };\n\nvoid printFirst(Node* head) {\n    std::cout << head->val << \"\\n\";\n}\n\nint main() { printFirst(nullptr); }",
+    "bugLine": 6,
+    "bugExplanation": "head may be nullptr and dereferencing it is undefined behavior. Check head != nullptr first.",
+    "hints": [
+      "Segmentation fault.",
+      "What if head is null?",
+      "Add a guard."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "if (head->next)",
+      "head = new Node",
+      "if (head != nullptr)"
+    ],
+    "correctAnswer": "if (head != nullptr)"
+  },
+  {
+    "title": "delete instead of delete[]",
+    "description": "Allocates and frees an int array.",
+    "language": "cpp",
+    "difficulty": "medium",
+    "code": "#include <iostream>\n\nint main() {\n    int* arr = new int[10];\n    arr[0] = 5;\n    std::cout << arr[0] << \"\\n\";\n    delete arr;\n    return 0;\n}",
+    "bugLine": 7,
+    "bugExplanation": "Memory from new[] must be released with delete[]; using delete is undefined behavior.",
+    "hints": [
+      "Heap corruption.",
+      "new[] pairs with something.",
+      "Use the array form."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "delete[] arr;",
+      "arr = nullptr;",
+      "free(arr);"
+    ],
+    "correctAnswer": "delete[] arr;"
+  },
+  {
+    "title": "Erase invalidates iterator",
+    "description": "Removes all even numbers from a vector.",
+    "language": "cpp",
+    "difficulty": "medium",
+    "code": "#include <vector>\n\nint main() {\n    std::vector<int> v = {1, 2, 3, 4};\n    for (auto it = v.begin(); it != v.end(); ++it) {\n        if (*it % 2 == 0) v.erase(it);\n    }\n    return 0;\n}",
+    "bugLine": 6,
+    "bugExplanation": "erase invalidates the iterator; incrementing it afterwards is undefined. Use it = v.erase(it) and increment only otherwise.",
+    "hints": [
+      "Crash or skipped items.",
+      "Erase invalidates iterators.",
+      "Use the returned iterator."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "it = v.erase(it);",
+      "v.erase(it + 1);",
+      "v.pop_back();"
+    ],
+    "correctAnswer": "it = v.erase(it);"
+  },
+  {
+    "title": "Uninitialized pointer write",
+    "description": "Stores a value through a pointer.",
+    "language": "cpp",
+    "difficulty": "medium",
+    "code": "#include <iostream>\n\nint main() {\n    int* p;\n    *p = 42;\n    std::cout << *p << \"\\n\";\n    return 0;\n}",
+    "bugLine": 4,
+    "bugExplanation": "p isn't initialized so it points to an arbitrary address. Allocate an int or point to an existing one.",
+    "hints": [
+      "Segmentation fault.",
+      "Where does p point?",
+      "Give it a valid target."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "int* p = 0x00;",
+      "int* p = *p;",
+      "int x = 0; int* p = &x;"
+    ],
+    "correctAnswer": "int x = 0; int* p = &x;"
+  },
+  {
+    "title": "Unsigned countdown loop",
+    "description": "Prints a vector in reverse order.",
+    "language": "cpp",
+    "difficulty": "medium",
+    "code": "#include <vector>\n#include <iostream>\n\nint main() {\n    std::vector<int> v = {1, 2, 3};\n    for (size_t i = v.size() - 1; i >= 0; i--) {\n        std::cout << v[i] << \" \";\n    }\n}",
+    "bugLine": 6,
+    "bugExplanation": "size_t is unsigned so i >= 0 is always true and i wraps around. Use a signed int index.",
+    "hints": [
+      "Infinite loop / crash.",
+      "size_t can't be negative.",
+      "Use a signed type."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "for (size_t i = 0; i >= 0; i--)",
+      "for (int i = (int)v.size() - 1; i >= 0; i--)",
+      "for (size_t i = v.size(); i > 0; i++)"
+    ],
+    "correctAnswer": "for (int i = (int)v.size() - 1; i >= 0; i--)"
+  },
+  {
+    "title": "Switch fall-through",
+    "description": "Names the day number.",
+    "language": "cpp",
+    "difficulty": "medium",
+    "code": "#include <iostream>\n\nint main() {\n    int d = 6;\n    switch (d) {\n        case 6:\n            std::cout << \"Saturday\\n\";\n        case 7:\n            std::cout << \"Sunday\\n\";\n            break;\n    }\n}",
+    "bugLine": 7,
+    "bugExplanation": "Without break, case 6 falls through into case 7 and prints both. Add break after case 6.",
+    "hints": [
+      "Both days are printed.",
+      "Switch falls through.",
+      "Add break."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "return;",
+      "goto case 7;",
+      "break;"
+    ],
+    "correctAnswer": "break;"
+  },
+  {
+    "title": "strcpy into a small buffer",
+    "description": "Copies a word into a buffer.",
+    "language": "cpp",
+    "difficulty": "medium",
+    "code": "#include <cstring>\n#include <iostream>\n\nint main() {\n    char buf[5];\n    std::strcpy(buf, \"hello\");\n    std::cout << buf << \"\\n\";\n    return 0;\n}",
+    "bugLine": 5,
+    "bugExplanation": "'hello' needs 6 bytes including the null terminator but the buffer holds 5, causing overflow. Use char buf[6].",
+    "hints": [
+      "Buffer overflow.",
+      "Count the terminator.",
+      "Make the buffer bigger."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "char buf[6];",
+      "char buf = 5;",
+      "char buf[4];"
+    ],
+    "correctAnswer": "char buf[6];"
+  },
+  {
+    "title": "map operator[] inserts",
+    "description": "Checks whether a key exists in a map.",
+    "language": "cpp",
+    "difficulty": "medium",
+    "code": "#include <map>\n#include <string>\n\nbool has(std::map<std::string, int>& m, const std::string& k) {\n    return m[k] != 0;\n}",
+    "bugLine": 5,
+    "bugExplanation": "operator[] inserts a default value for missing keys, mutating the map and returning false for zero values. Use m.count(k) or find.",
+    "hints": [
+      "The map grows when checking.",
+      "operator[] has side effects.",
+      "Use find or count."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "m.find(k) != m.end()",
+      "m[k] == 0",
+      "m.at(k) != 0"
+    ],
+    "correctAnswer": "m.find(k) != m.end()"
+  },
+  {
+    "title": "Returning reference to local",
+    "description": "Returns a value computed in a function.",
+    "language": "cpp",
+    "difficulty": "medium",
+    "code": "#include <iostream>\n\nint& compute() {\n    int result = 42;\n    return result;\n}\n\nint main() {\n    std::cout << compute() << \"\\n\";\n}",
+    "bugLine": 3,
+    "bugExplanation": "The function returns a reference to a local variable that's destroyed on return. Return by value: int compute().",
+    "hints": [
+      "Dangling reference.",
+      "Local variables die on return.",
+      "Return by value."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "const int& compute()",
+      "int compute()",
+      "int* compute()"
+    ],
+    "correctAnswer": "int compute()"
+  },
+  {
+    "title": "Memory leak with new",
+    "description": "Allocates a temporary object and uses it.",
+    "language": "cpp",
+    "difficulty": "medium",
+    "code": "#include <iostream>\n\nint main() {\n    for (int i = 0; i < 3; i++) {\n        int* p = new int(i);\n        std::cout << *p << \"\\n\";\n    }\n    return 0;\n}",
+    "bugLine": 6,
+    "bugExplanation": "The allocated int is never freed, leaking memory every iteration. Add delete p; (or use unique_ptr).",
+    "hints": [
+      "Memory usage grows.",
+      "Who frees p?",
+      "Delete it."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "free(p);",
+      "delete p;",
+      "p = nullptr;"
+    ],
+    "correctAnswer": "delete p;"
+  },
+  {
+    "title": "Midpoint overflow",
+    "description": "Binary search over a huge vector.",
+    "language": "cpp",
+    "difficulty": "medium",
+    "code": "#include <vector>\n\nint search(const std::vector<int>& a, int t) {\n    int lo = 0, hi = (int)a.size() - 1;\n    while (lo <= hi) {\n        int mid = (lo + hi) / 2;\n        if (a[mid] == t) return mid;\n        if (a[mid] < t) lo = mid + 1; else hi = mid - 1;\n    }\n    return -1;\n}",
+    "bugLine": 6,
+    "bugExplanation": "lo + hi can overflow int for large arrays. Use lo + (hi - lo) / 2.",
+    "hints": [
+      "Rare negative index.",
+      "Overflow in the addition.",
+      "Use a safe formula."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "hi - lo / 2",
+      "lo + (hi - lo) / 2",
+      "(lo + hi) >> 2"
+    ],
+    "correctAnswer": "lo + (hi - lo) / 2"
+  },
+  {
+    "title": "Comparing doubles with ==",
+    "description": "Checks a floating-point sum.",
+    "language": "cpp",
+    "difficulty": "medium",
+    "code": "#include <iostream>\n\nint main() {\n    double a = 0.1 + 0.2;\n    double b = 0.3;\n    if (a == b) {\n        std::cout << \"equal\\n\";\n    }\n    return 0;\n}",
+    "bugLine": 6,
+    "bugExplanation": "0.1 + 0.2 isn't exactly 0.3 in floating point. Compare using a tolerance: std::abs(a - b) < 1e-9.",
+    "hints": [
+      "'equal' never prints.",
+      "Floating-point error.",
+      "Use an epsilon."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "a - b == 0",
+      "(int)a == (int)b",
+      "std::abs(a - b) < 1e-9"
+    ],
+    "correctAnswer": "std::abs(a - b) < 1e-9"
+  },
+  {
+    "title": "Struct member not reset on copy",
+    "description": "Compares two points for equality.",
+    "language": "cpp",
+    "difficulty": "medium",
+    "code": "#include <iostream>\n\nstruct P { int x, y; };\n\nbool same(P a, P b) {\n    return a.x == b.x && a.x == b.y;\n}\n\nint main() { std::cout << same({1, 2}, {1, 2}); }",
+    "bugLine": 6,
+    "bugExplanation": "The second comparison uses a.x instead of a.y, so equal points compare false. Use a.y == b.y.",
+    "hints": [
+      "Equal points compare false.",
+      "Check each field.",
+      "Compare y with y."
+    ],
+    "xp": 100,
+    "answerOptions": [
+      "a.x != b.y",
+      "a.y == b.y",
+      "a.y == b.x"
+    ],
+    "correctAnswer": "a.y == b.y"
+  },
+  {
+    "title": "Use after delete",
+    "description": "Frees a node and then reads from it.",
+    "language": "cpp",
+    "difficulty": "hard",
+    "code": "#include <iostream>\n\nstruct Node { int val; };\n\nint main() {\n    Node* n = new Node{7};\n    delete n;\n    std::cout << n->val << \"\\n\";\n    return 0;\n}",
+    "bugLine": 8,
+    "bugExplanation": "Reading from n after delete is undefined behavior. Read the value before deleting.",
+    "hints": [
+      "Undefined behavior.",
+      "Order of operations.",
+      "Read before freeing."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "n = new Node",
+      "read n->val before delete n",
+      "delete n again"
+    ],
+    "correctAnswer": "read n->val before delete n"
+  },
+  {
+    "title": "Missing virtual destructor",
+    "description": "Deletes a derived object through a base pointer.",
+    "language": "cpp",
+    "difficulty": "hard",
+    "code": "#include <iostream>\n\nstruct Base {\n    ~Base() { std::cout << \"~Base\\n\"; }\n};\nstruct Derived : Base {\n    ~Derived() { std::cout << \"~Derived\\n\"; }\n};\n\nint main() {\n    Base* b = new Derived();\n    delete b;\n}",
+    "bugLine": 4,
+    "bugExplanation": "Deleting through a base pointer without a virtual destructor is undefined behavior and skips ~Derived. Declare virtual ~Base().",
+    "hints": [
+      "~Derived is never called.",
+      "Polymorphic deletion.",
+      "Make the destructor virtual."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "~Base() = delete",
+      "virtual ~Base()",
+      "explicit ~Base()"
+    ],
+    "correctAnswer": "virtual ~Base()"
+  },
+  {
+    "title": "Object slicing",
+    "description": "Stores shapes polymorphically in a vector.",
+    "language": "cpp",
+    "difficulty": "hard",
+    "code": "#include <vector>\n#include <iostream>\n\nstruct Shape { virtual double area() const { return 0; } virtual ~Shape() {} };\nstruct Sq : Shape { double s = 2; double area() const override { return s * s; } };\n\nint main() {\n    std::vector<Shape> shapes;\n    shapes.push_back(Sq());\n    std::cout << shapes[0].area();  // expected 4\n}",
+    "bugLine": 8,
+    "bugExplanation": "Storing derived objects by value slices them to Shape so area() returns 0. Store pointers: vector<unique_ptr<Shape>>.",
+    "hints": [
+      "Prints 0.",
+      "Objects are copied into base type.",
+      "Store pointers."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "std::vector<Shape&> shapes;",
+      "std::vector<std::unique_ptr<Shape>> shapes;",
+      "std::vector<const Shape> shapes;"
+    ],
+    "correctAnswer": "std::vector<std::unique_ptr<Shape>> shapes;"
+  },
+  {
+    "title": "push_back during range-for",
+    "description": "Duplicates each element of a vector.",
+    "language": "cpp",
+    "difficulty": "hard",
+    "code": "#include <vector>\n\nint main() {\n    std::vector<int> v = {1, 2, 3};\n    for (int x : v) {\n        v.push_back(x);\n    }\n    return 0;\n}",
+    "bugLine": 6,
+    "bugExplanation": "push_back can reallocate and invalidates the iterators used by the range-for (and the loop never ends). Iterate over a copy.",
+    "hints": [
+      "Crash or infinite loop.",
+      "Don't modify while iterating.",
+      "Iterate over a copy."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "v.reserve(0);",
+      "for (int& x : v)",
+      "for (int x : std::vector<int>(v))"
+    ],
+    "correctAnswer": "for (int x : std::vector<int>(v))"
+  },
+  {
+    "title": "Missing null terminator with strncpy",
+    "description": "Copies a name into a fixed buffer.",
+    "language": "cpp",
+    "difficulty": "hard",
+    "code": "#include <cstring>\n#include <iostream>\n\nint main() {\n    char buf[4];\n    std::strncpy(buf, \"abcdef\", sizeof(buf));\n    std::cout << buf << \"\\n\";\n    return 0;\n}",
+    "bugLine": 6,
+    "bugExplanation": "strncpy doesn't append '\\0' when the source is longer than n, so buf isn't terminated. Copy sizeof(buf) - 1 and set the terminator.",
+    "hints": [
+      "Garbage after the text.",
+      "strncpy has a catch.",
+      "Terminate manually."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "memset(buf, 0, 1);",
+      "strncpy(buf, \"abcdef\", sizeof(buf) - 1); buf[3] = '\\0';",
+      "strcpy(buf, \"abcdef\");"
+    ],
+    "correctAnswer": "strncpy(buf, \"abcdef\", sizeof(buf) - 1); buf[3] = '\\0';"
+  },
+  {
+    "title": "Data race on counter",
+    "description": "Increments a shared counter from two threads.",
+    "language": "cpp",
+    "difficulty": "hard",
+    "code": "#include <thread>\n#include <iostream>\n\nint counter = 0;\n\nvoid work() { for (int i = 0; i < 100000; i++) counter++; }\n\nint main() {\n    std::thread a(work), b(work);\n    a.join(); b.join();\n    std::cout << counter << \"\\n\";  // expected 200000\n}",
+    "bugLine": 4,
+    "bugExplanation": "counter++ from multiple threads is a data race, so increments are lost. Use std::atomic<int>.",
+    "hints": [
+      "Result is less than 200000.",
+      "Shared mutable state.",
+      "Make it atomic."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "std::atomic<int> counter = 0;",
+      "static int counter = 0;",
+      "volatile int counter = 0;"
+    ],
+    "correctAnswer": "std::atomic<int> counter = 0;"
+  },
+  {
+    "title": "Shared_ptr cycle leak",
+    "description": "Models a parent and child that reference each other.",
+    "language": "cpp",
+    "difficulty": "hard",
+    "code": "#include <memory>\n\nstruct Child;\nstruct Parent { std::shared_ptr<Child> child; };\nstruct Child { std::shared_ptr<Parent> parent; };\n\nint main() {\n    auto p = std::make_shared<Parent>();\n    p->child = std::make_shared<Child>();\n    p->child->parent = p;\n}",
+    "bugLine": 5,
+    "bugExplanation": "Two shared_ptrs referencing each other form a cycle, so neither object is freed. Make one link a weak_ptr.",
+    "hints": [
+      "Destructors never run.",
+      "Reference cycle.",
+      "Use a non-owning pointer."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "std::weak_ptr<Parent> parent;",
+      "std::unique_ptr<Parent> parent;",
+      "Parent* parent = new Parent;"
+    ],
+    "correctAnswer": "std::weak_ptr<Parent> parent;"
+  },
+  {
+    "title": "Use after move",
+    "description": "Moves a string into a vector and then prints it.",
+    "language": "cpp",
+    "difficulty": "hard",
+    "code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::string s = \"hello\";\n    std::vector<std::string> v;\n    v.push_back(std::move(s));\n    std::cout << s << \"\\n\";\n}",
+    "bugLine": 9,
+    "bugExplanation": "After std::move, s is in a valid but unspecified (usually empty) state. Don't use it, or copy instead of move.",
+    "hints": [
+      "Prints an empty line.",
+      "What does move do?",
+      "Copy instead of moving."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "v.push_back(s);",
+      "std::cout << std::move(s);",
+      "s.clear();"
+    ],
+    "correctAnswer": "v.push_back(s);"
+  },
+  {
+    "title": "Uninitialized member in constructor",
+    "description": "Creates a counter that starts at zero.",
+    "language": "cpp",
+    "difficulty": "hard",
+    "code": "#include <iostream>\n\nclass Counter {\n    int count;\npublic:\n    Counter() {}\n    void inc() { count++; }\n    int get() const { return count; }\n};\n\nint main() { Counter c; c.inc(); std::cout << c.get(); }",
+    "bugLine": 4,
+    "bugExplanation": "count is never initialized so it has an indeterminate value. Initialize it: int count = 0; or in an initializer list.",
+    "hints": [
+      "Random numbers.",
+      "Where is count set?",
+      "Initialize the member."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "static int count;",
+      "int count();",
+      "int count = 0;"
+    ],
+    "correctAnswer": "int count = 0;"
+  },
+  {
+    "title": "Invalid strict weak ordering",
+    "description": "Sorts integers descending with a custom comparator.",
+    "language": "cpp",
+    "difficulty": "hard",
+    "code": "#include <algorithm>\n#include <vector>\n\nint main() {\n    std::vector<int> v = {3, 1, 3, 2, 3};\n    std::sort(v.begin(), v.end(), [](int a, int b) {\n        return a >= b;\n    });\n    return 0;\n}",
+    "bugLine": 7,
+    "bugExplanation": "The comparator must be a strict weak ordering; >= returns true for equal elements, which is undefined behavior. Use >.",
+    "hints": [
+      "Crash with duplicates.",
+      "Equal elements.",
+      "Use strict comparison."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "return a > b;",
+      "return a != b;",
+      "return a - b;"
+    ],
+    "correctAnswer": "return a > b;"
+  },
+  {
+    "title": "Dangling lambda reference capture",
+    "description": "Returns a function that adds a stored value.",
+    "language": "cpp",
+    "difficulty": "hard",
+    "code": "#include <functional>\n\nstd::function<int(int)> makeAdder(int n) {\n    return [&](int x) { return x + n; };\n}\n\nint main() {\n    auto add5 = makeAdder(5);\n    return add5(1);  // expected 6\n}",
+    "bugLine": 4,
+    "bugExplanation": "The lambda captures n by reference but n dies when makeAdder returns. Capture by value: [=] or [n].",
+    "hints": [
+      "Wrong result / crash.",
+      "Lifetime of n.",
+      "Capture by value."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "[n](int x) { return x + n; }",
+      "[this]",
+      "[&n]"
+    ],
+    "correctAnswer": "[n](int x) { return x + n; }"
+  },
+  {
+    "title": "Unsigned subtraction wraps",
+    "description": "Checks whether a is smaller than b.",
+    "language": "cpp",
+    "difficulty": "hard",
+    "code": "#include <iostream>\n\nint main() {\n    unsigned int a = 3, b = 5;\n    if (a - b < 0) {\n        std::cout << \"a is smaller\\n\";\n    }\n    return 0;\n}",
+    "bugLine": 5,
+    "bugExplanation": "Unsigned subtraction wraps to a huge value and is never negative. Compare directly: a < b.",
+    "hints": [
+      "The message never prints.",
+      "Unsigned can't go below 0.",
+      "Compare without subtracting."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "a - b <= 0",
+      "(int)(a - b) > 0",
+      "a < b"
+    ],
+    "correctAnswer": "a < b"
+  },
+  {
+    "title": "string_view of a temporary",
+    "description": "Prints a substring of a returned string.",
+    "language": "cpp",
+    "difficulty": "hard",
+    "code": "#include <iostream>\n#include <string>\n#include <string_view>\n\nstd::string name() { return \"Alice Smith\"; }\n\nint main() {\n    std::string_view sv = name();\n    std::cout << sv.substr(0, 5) << \"\\n\";\n}",
+    "bugLine": 8,
+    "bugExplanation": "The temporary std::string is destroyed at the end of the statement so sv dangles. Store the string first: std::string s = name().",
+    "hints": [
+      "Garbage output.",
+      "Lifetime of the temporary.",
+      "Keep an owning string."
+    ],
+    "xp": 150,
+    "answerOptions": [
+      "auto sv = &name();",
+      "std::string_view sv = name().data();",
+      "std::string s = name(); std::string_view sv = s;"
+    ],
+    "correctAnswer": "std::string s = name(); std::string_view sv = s;"
+  }
+]
