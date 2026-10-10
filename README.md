@@ -154,18 +154,6 @@ BugHuntArena/
 
 ---
 
-## 🎯 Usage
-
-### Test Credentials
-Want to try the app without signing up? Use these test credentials:
-
-```
-Email: janarthananakash@gmail.com
-Password: Akash19092002!!
-```
-
-> **Note:** This is a demo account with sample data for testing purposes.
-
 ### For Users
 1. **Sign Up** — Create an account via email or Google
 2. **Configure Hunt** — Select language, difficulty, time frame
